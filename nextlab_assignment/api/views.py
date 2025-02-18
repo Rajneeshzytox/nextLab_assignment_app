@@ -1,0 +1,197 @@
+from django.shortcuts import get_object_or_404
+
+# token 
+from rest_framework.authtoken.models import Token
+
+from rest_framework.response import Response
+
+# https://www.django-rest-framework.org/api-guide/authentication/#setting-the-authentication-scheme
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+
+# View set : https://www.django-rest-framework.org/api-guide/viewsets/#viewsets
+from rest_framework import viewsets
+from rest_framework.views import APIView
+
+# all models adn serializers
+from .models import *
+from .serializers import *
+
+# is admin check: custom permissions
+from .permissions import IsAdmin
+
+#  --------------------------------
+# USER PROFILE VIEWSET
+#  --------------------------------
+# class UserProfileViewSet(viewsets.ModelViewSet):
+#     authentication_classes = [TokenAuthentication]
+#     permission_classes = [IsAuthenticated]
+
+#     serializer_class = UserProfileSerializer
+
+#     def get_queryset(self):
+#         return UserProfile.objects.filter(user=self.request.user)
+
+#     def perform_update(self, serializer):
+#         serializer.save(user=self.request.user)
+    
+#     def create(self, req):
+#         return Response('POST not allowed')
+    
+class UserProfileUpdateDeleteApiView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, req):
+        user  = get_object_or_404(UserProfile, user = req.user, is_active=True)
+        serialized_data = UserProfileSerializer(user)
+        return Response({"status": "ok", "data": serialized_data.data})
+    
+    def put(self, req):
+        user = get_object_or_404(User, username = req.user)
+        if not user :
+            return Response({"status": "error", "error": "user not present"})
+        
+        user.first_name = req.data['first_name'] if 'first_name' in req.data else user.first_name
+        user.last_name = req.data['last_name'] if 'last_name' in req.data else user.last_name
+        user.email = req.data['email'] if 'email' in req.data else user.email
+        user.save()
+        return Response({"status": "ok", "message": f"first name : {  user.first_name}\nLast name : {  user.last_name}\n email : {user.email}"})
+    
+
+    def delete(self, request):
+        user = get_object_or_404(User, username=request.user)
+        user.is_active = False
+        user.save()
+        # deleting token
+        token = get_object_or_404(Token, user=user)
+        token.delete()
+        
+
+        return Response({"status": "ok", "message": "Profile deleted successfully"})
+
+    
+
+
+#  --------------------------------
+# CATEGORY / SUB CATEGEORY viewset
+#  --------------------------------
+class CategoryViewSet(viewsets.ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated, IsAdmin]
+
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+class SubCategoryViewSet(viewsets.ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated, IsAdmin]
+
+    queryset = SubCategory.objects.all()
+    serializer_class = SubCategorySerializer
+
+
+
+
+#  --------------------------------
+# APP view
+#  --------------------------------
+
+# for admin CRUD
+class AppViewSet(viewsets.ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated, IsAdmin]
+
+    queryset = App.objects.all()
+    serializer_class = AppSerializer
+
+# for normal user only get / read only
+class GetAppAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated] 
+
+    def get(self, req):
+        apps = App.objects.all()
+        serialized_data = AppSerializer(apps, many=True)
+
+        return Response({"status": "ok", "data": serialized_data.data})
+
+#  --------------------------------
+# Download History API view
+# it will be get& post only
+#  --------------------------------
+
+class DownloadHistoryAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, req):
+        histories = DownloadHistory.objects.all().filter(user_id = req.user)
+        serialized_data = DownloadHistorySerializer(histories, many=True)
+        return Response({"status": "ok", "data": serialized_data.data})
+
+# ----------------------------------------
+# AUTH: 
+
+# Register: add user -> create token -> return tokrn
+class RegisterAPIView(APIView):
+    def post(self, req): 
+        register_serializer = RegisterUserSerializer(data = req.data)
+        if not register_serializer.is_valid():
+            return Response({"status": "not", "errors": register_serializer.errors})
+
+        user = register_serializer.save()
+        token = Token.objects.create(user=user)
+        return Response({"status": "ok", "message": "created user successfully", "token": str(token.key), "data": register_serializer.data})
+
+ 
+
+# LOGOUT only (post): delete token
+class LogoutView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, req):
+        # user = User.objects.filter(username = req.user).first()
+        user = get_object_or_404(User, username=req.user)
+        token = get_object_or_404(Token, user=user)
+        token.delete()
+        return Response({"status": "ok", "message": "Logged out successfully."})
+    
+
+# --------------------------------------------------
+
+# Points System : 
+#  -- user click on btn, and django will check if already downloaded -> if not downloaded -> reward points
+class DownloadAppAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, req, app_id):
+        try: 
+            app = App.objects.get(id = app_id)
+        except:
+            return Response({"status": "not", "message": "APP not exists", "errors": "APP not exists"}) 
+        
+        # checking if already in history
+        if(DownloadHistory.objects.filter(user_id = req.user, app_id = app)):
+            return Response({"status": "not", "message": "Dont be greedy", "errors": "Already Downloaed"}) 
+        
+        # if not downloaded, add to history
+        download_history = DownloadHistory.objects.create(
+            user_id=req.user,
+            app_id=app,
+            points_earned=app.points
+        )
+        download_history.save()
+
+        # add pont to user profile
+        user_profile = UserProfile.objects.get(user=req.user)
+        user_profile.points += download_history.points_earned
+        user_profile.save()
+
+        return Response({
+            "status": "ok",
+            "message": f"Download of {app.title} confirmed. {download_history.points_earned} points awarded",
+            "user_points": user_profile.points
+        })

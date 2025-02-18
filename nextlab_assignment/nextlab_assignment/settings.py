@@ -125,8 +125,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 INSTALLED_APPS += [
     'api',
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
 ]
+
+#  https://www.django-rest-framework.org/api-guide/authentication/#setting-the-authentication-scheme
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication'
+    ]
+}
 
 # cors allow to frontend
 MIDDLEWARE += [
