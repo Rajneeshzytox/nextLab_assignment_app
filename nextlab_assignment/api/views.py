@@ -132,7 +132,7 @@ class GetAppAPIView(APIView):
 
 #  --------------------------------
 # Download History API view
-# it will be get& post only
+# it will be get
 #  --------------------------------
 
 class DownloadHistoryAPIView(APIView):
