@@ -15,10 +15,11 @@ Admin:
 App: 
 - `history/` : user download history `get`
 - `get-apps/` : all-apps `get`
+- `get-apps/?not-claimed=true/`: retured not claimed apps `get`
 - `profile/` : profile `get` `put` `delete`
 
 System: 
-- `download/<int:app_id>/` : download-app
+- `download/<int:app_id>/` : download-app {reward points for downloading apps. if not already download or app inactive}
 
 
 ---
@@ -464,3 +465,4 @@ urls:
 ... and so on for PUT / Patch / Delete...
 
 
+and again so on, so on... 

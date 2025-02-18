@@ -26,7 +26,7 @@ urlpatterns = [
     path('history/', DownloadHistoryAPIView.as_view(), name='history'),
     path('profile/', UserProfileUpdateDeleteApiView.as_view(), name='profile'),
     path('get-apps/', GetAppAPIView.as_view(), name='all-apps'),
-    path('download/<int:app_id>', DownloadAppAPIView.as_view(), name="download-app"),
+    path('download/<int:app_id>/', DownloadAppAPIView.as_view(), name="download-app"),
 
     # routes
     path('', include(router.urls)),

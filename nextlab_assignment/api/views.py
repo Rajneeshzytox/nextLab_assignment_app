@@ -43,7 +43,7 @@ class UserProfileUpdateDeleteApiView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, req):
-        user  = get_object_or_404(UserProfile, user = req.user, is_active=True)
+        user  = get_object_or_404(UserProfile, user = req.user)
         serialized_data = UserProfileSerializer(user)
         return Response({"status": "ok", "data": serialized_data.data})
     
@@ -111,6 +111,20 @@ class GetAppAPIView(APIView):
     permission_classes = [IsAuthenticated] 
 
     def get(self, req):
+        if(req.GET.get('not-claimed')):
+            # get download history -> get apps from it -> return app data exlude from apps in history
+            already_downloaded_objects = DownloadHistory.objects.filter(user_id=req.user)
+
+            # get all app from download history
+            downloaded_apps = []
+            for objects in already_downloaded_objects:
+                downloaded_apps.append(objects.app_id.id)
+
+            # apps not in downloaded_apps
+            apps = App.objects.exclude(id__in=downloaded_apps)
+            serialized_data = AppSerializer(apps, many=True)
+            return Response({"status": "ok", "data": serialized_data.data})
+
         apps = App.objects.all()
         serialized_data = AppSerializer(apps, many=True)
 
@@ -167,15 +181,21 @@ class DownloadAppAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def post(self, req, app_id):
+    def get(self, req, app_id):
         try: 
             app = App.objects.get(id = app_id)
         except:
             return Response({"status": "not", "message": "APP not exists", "errors": "APP not exists"}) 
         
+        # also check if app is not active then not reward
+        if(not app.is_active):
+            return Response({"status": "not", "message": "you cant get points from dead", "errors": "App is inactive"})
+
+
         # checking if already in history
         if(DownloadHistory.objects.filter(user_id = req.user, app_id = app)):
-            return Response({"status": "not", "message": "Dont be greedy", "errors": "Already Downloaed"}) 
+            return Response({"status": "not", "message": "Dont be greedy", "errors": "Already Downloaed"})
+        
         
         # if not downloaded, add to history
         download_history = DownloadHistory.objects.create(
