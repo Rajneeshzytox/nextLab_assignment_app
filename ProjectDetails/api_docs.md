@@ -3,23 +3,23 @@
 ## endspoints
 
 Auth: 
-- `register/` : register `post`
-- `login/` : login `post`
-- `logout/` : logout `get`
+- [`register/`](#register-api) : register `post`
+- [`login/`](#login) : login `post`
+- [`logout/`](#logout) : logout `get`
 
 Admin: 
-- `apps/` : apps `CRUD`
-- `categories/` : categories
-- `sub-categories/` : sub-categories
+- [`apps/`](#apps) : apps `CRUD`
+- [`categories/`](#categories) : categories
+- [`sub-categories/`](#sub-categories) : sub-categories
 
 App: 
-- `history/` : user download history `get`
-- `get-apps/` : all-apps `get`
-- `get-apps/?not-claimed=true/`: retured not claimed apps `get`
-- `profile/` : profile `get` `put` `delete`
+- [`history/`](#history) : user download history `get`
+- [`get-apps/`](#get-apps) : all-apps `get`
+- [`get-apps/?not-claimed=true/`](#get-apps-not-claimed): retured not claimed apps `get`
+- [`profile/`](#profile) : profile `get` `put` `delete`
 
 System: 
-- `download/<int:app_id>/` : download-app {reward points for downloading apps. if not already download or app inactive}
+- [`download/<int:app_id>/`](#download-app-and-point-system) : download-app {reward points for downloading apps. if not already download or app inactive}
 
 
 ---
@@ -466,3 +466,39 @@ urls:
 
 
 and again so on, so on... 
+
+## User:
+
+### Profile
+
+- `GET`: `.../api/profile/`
+  ```json
+  {
+    "status": "ok",
+    "data": {
+      "username": "temp",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "role": "user",
+      "points": 125
+    }
+  }
+  ```
+- Not Login: 
+  ```json
+  {
+    "detail": "Authentication credentials were not provided."
+  }
+  ```
+
+
+
+### History
+
+### Get-apps 
+
+#### get-apps not claimed
+
+
+## Download App and point system 
