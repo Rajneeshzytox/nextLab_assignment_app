@@ -15,19 +15,26 @@ import { TypoH1 } from "../ui/Typo"
 // icons
 import {
     UserCircle, 
-    Lock
+    Lock,
+    AtSignIcon,
+    UserRoundPenIcon,
 } from "lucide-react"
 
 
 //  -----------------
-// LOGIN
+// Register
 //  -----------------
-export default function Login(){
+export default function Register(){
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
     // form Data
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [firstName, setfirstName] = useState('')
+    const [lastName, setlastName] = useState('')
+    const [Email, setEmail] = useState('')
+    
     // alert
     const [showAlert, setShowAlert] = useState({
         status: false, 
@@ -43,7 +50,9 @@ export default function Login(){
     }
     
     // submit
-    const handleSubmit = (username, password) => {
+    const handleSubmit = (e) => {
+        e.preventDefault()
+
         if(!username || !password){
             setShowAlert({
                 status: true,
@@ -52,14 +61,17 @@ export default function Login(){
             })
             return 
         }
-        const login_form_data = {
+        const register_form_data = {
             username: username,
             password: password,
+            first_name: firstName,
+            last_name: lastName,
+            email: Email,
         }
 
         dispatch(fetchTokenID({
-            data: login_form_data,
-            isRegister: false,
+            data: register_form_data,
+            isRegister: true
         }))
     }
 
@@ -92,11 +104,27 @@ export default function Login(){
         <main className="flex min-h-screen">
             <div className="bg-slate-700 hidden md:block w-1/2">
             </div>
-            <section className="Login_container size-full flex flex-col justify-center min-h-screen relative px-4 mx-auto max-w-96">
+            <section className="Login_container size-full flex flex-col justify-center min-h-screen relative px-4 mx-auto max-w-[500px]">
                 <TypoH1 >
-                    Login
+                    Register
                 </TypoH1>
                 
+                <div className="flex flex-col sm:gap-4 sm:flex-row"> 
+                    <Input
+                        type="text"
+                        title="First-Name"
+                        icon={<UserRoundPenIcon/>}
+                        state={{value: firstName, set: setfirstName}}
+                        required={false}
+                    />
+                    <Input
+                        type="text"
+                        title="Last-Name"
+                        icon={<UserRoundPenIcon/>}
+                        state={{value: lastName, set: setlastName}}
+                        required={false}
+                    />
+                </div>
 
                 <Input
                     type="text"
@@ -106,15 +134,22 @@ export default function Login(){
                     required={true}
                 />
                 <Input
+                    type="email"
+                    title="email"
+                    icon={<AtSignIcon/>}
+                    state={{value: Email, set: setEmail}}
+                    required={false}
+                />
+                <Input
                     type="password"
                     title="password"
                     icon={<Lock/>}
                     state={{value: password, set: setPassword}}
                     required={true}
                 />
-                <button onClick={()=>handleSubmit(username, password)} className="">
+                <button type="submit" onClick={(e)=>handleSubmit(e)}>
                     <Button>
-                        Login
+                        Register
                     </Button>
                 </button>
 

@@ -4,8 +4,9 @@ import login from "../api/login"
 import register from "../api/register"
 
 // func to call api for token. 
-export const fetchTokenID = createAsyncThunk("tokken_fetch", async (data, isRegister=false)=>{
-    if(!isRegister){
+export const fetchTokenID = createAsyncThunk("tokken_fetch", async ({data, isRegister})=>{
+    
+    if(isRegister){
         const response = await register(data)
         
         // storing personal data to local stg

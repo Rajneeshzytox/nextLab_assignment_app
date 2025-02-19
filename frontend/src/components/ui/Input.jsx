@@ -36,8 +36,11 @@ const Input = ({title, type, icon, state, required}) => {
 
     return (
         <div className="max-w-full flex flex-col gap-1 my-1 items-center *:w-full">
-        
+            
+            {/* Label */}
             <Label title={`${title}${required?'*':''}`} htmlFor={title} />
+
+            
             <div className="flex items-center gap-3 bg-slate-50 outline rounded px-4 py-2 max-sm:text-sm max-w-full">
                 {icon}
                 <input 
