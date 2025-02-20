@@ -11,9 +11,27 @@ import Admin from "../admin/Admin"
 import User from "../User/User"
 
 
+// local Data 
+import { local_profile } from "../states/userInfo_slice"
+import { local_token } from "../states/token_slice";
+// state
+import {useSelector, useDispatch} from "react-redux"
+import { fetchUserProfile } from "../states/userInfo_slice";
+
 export default function RouteProvider(){
+    const token = useSelector(s=>s.token);
+    const profile = useSelector(s=>s.profile)
+    const dispatch = useDispatch()
 
+    const isToken_present = token.key || local_token;
+    const isUserData_present =  local_profile?.role || profile.data.role ;
 
+    // check if tokenn is present then fetch role
+    useEffect(()=>{
+        if(isToken_present && !isUserData_present){
+            dispatch(fetchUserProfile({token:isToken_present}))
+        }
+    }, [profile.data.role])
 
     const admin_page_allowed_roles = ['admin']
     const user_page_allowed_roles = ['admin', 'user']

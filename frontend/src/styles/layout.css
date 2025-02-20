@@ -1,0 +1,22 @@
+.main-layout-container{
+    display: grid;
+    grid-template-areas: "sidebar content";
+    grid-template-columns: auto 1fr;
+
+    
+}
+.sidebar-container{
+    grid-area: sidebar;
+}
+.content-container{
+    grid-area: content;
+
+}
+
+
+/* mobile */
+@media screen and (max-width:767px) {
+    .main-layout-container{
+        display: block;
+    }
+}

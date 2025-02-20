@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react"
-import {Navigate, useNavigate} from "react-router-dom"
+import {useNavigate, Link} from "react-router-dom"
 
 // token 
 import {useDispatch, useSelector} from "react-redux"
-import { fetchTokenID } from "../../states/token_slice" 
-
+import { fetchTokenID, local_token } from "../../states/token_slice" 
+import { fetchUserProfile } from "../../states/userInfo_slice"
 // ui
 import Input from "../ui/Input"
 import Alert from "../ui/Alert"
 import Button from "../ui/Button"
-import { TypoH1 } from "../ui/Typo"
+import { TypoH1, TypoSmall } from "../ui/Typo"
 
 
 // icons
@@ -43,11 +43,7 @@ export default function Register(){
     })
 
     const token = useSelector((s)=>s.token)
-
-    // if already login - redirect to user page
-    if(token.key || localStorage.getItem('TOKEN_NEXTLAB_ASSIGNMENT')){
-        navigate("/")
-    }
+    const profile = useSelector((s)=>s.profile.data)
     
     // submit
     const handleSubmit = (e) => {
@@ -93,12 +89,18 @@ export default function Register(){
             })
         }
 
-        if(token.key){
+        if(token.key && !profile.role){
+            // get user info
+            dispatch(fetchUserProfile({token: token.key}))
+        }
+
+        // if get role move 
+        if(profile.role){
             setTimeout(() => {
                 navigate("/")
-            }, 2000);
+            }, 500);
         }
-    }, [token.message, token.isError, token.key, Navigate])
+    }, [token.message, token.isError, token.key])
 
     return (
         <main className="flex min-h-screen">
@@ -164,6 +166,9 @@ export default function Register(){
                         
                     />
                 }
+
+                {/* Move to Login */}
+                <Link to="/login"><TypoSmall className="hover:underline">already a family?</TypoSmall></Link>
             </section>
         </main>
     )

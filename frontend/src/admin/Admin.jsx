@@ -1,8 +1,21 @@
+import {useSelector} from "react-redux"
+
 export default function Admin(){
-    return (
+    const profile = useSelector(s=>s.profile)
+
+     return (
         <>
             <main className="Admin_container size-full grid place-content-center">
-                admin
+                
+
+                <p>
+                    {profile.data.role}
+                </p>
+                <p>
+                    {profile.data.username}
+                </p>
+                
+
             </main>
         </>
     )

@@ -15,6 +15,10 @@ const register = async (register_data) => {
         if(data.status == "ok"){
             return {status: 200, key: data.token, message:"🎉 Welcome to our family !", userData: data.data}
         }
+
+        else if(data.status == "not"){
+          return {status: 400, message:"Username is taken"}
+        }
         
         // if data is missing
         else {
@@ -53,6 +57,15 @@ ok res:
     "first_name": "temp_first",
     "last_name": "temp_last",
     "email": "temp@temp.com"
+  }
+}
+
+{
+  "status": "not",
+  "errors": {
+    "username": [
+      "A user with that username already exists."
+    ]
   }
 }
 

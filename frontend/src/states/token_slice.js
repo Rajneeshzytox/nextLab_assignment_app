@@ -8,13 +8,6 @@ export const fetchTokenID = createAsyncThunk("tokken_fetch", async ({data, isReg
     
     if(isRegister){
         const response = await register(data)
-        
-        // storing personal data to local stg
-        localStorage.setItem('username_nextlab', response.userData.username)
-        localStorage.setItem('role_nextlab', 'user')
-        localStorage.setItem('first_name_nextlab', response.userData.first_name)
-        localStorage.setItem('last_name_nextlab', response.userData.last_name)
-        localStorage.setItem('email_nextlab', response.userData.email)
         return response 
     }
 
@@ -25,13 +18,13 @@ export const fetchTokenID = createAsyncThunk("tokken_fetch", async ({data, isReg
 })
 
 // local storage token
-const token_key = localStorage.getItem('TOKEN_NEXTLAB_ASSIGNMENT')
+export const local_token = localStorage.getItem('TOKEN_NEXTLAB_ASSIGNMENT')
 
 const token = {
     isLoad: false,
     isError: false,
-    key: token_key? token_key : null,
-    isLogin: token_key? true : false,
+    key: local_token? local_token : null,
+    isLogin: local_token? true : false,
     message: null,
 }
 
