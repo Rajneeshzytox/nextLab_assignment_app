@@ -31,6 +31,20 @@ const token = {
 const tokenSlice = createSlice({
     name:"token",
     initialState : token,
+    reducers: {
+        clearToken: (state, action) => {
+            // clear token from local stg
+            localStorage.clear('TOKEN_NEXTLAB_ASSIGNMENT')
+
+            return {
+                isLoad: false,
+                isError: false,
+                key: null,
+                isLogin: false,
+                message: null,
+            }
+        }
+    },
     extraReducers: (builder) => {
         builder.addCase(fetchTokenID.pending, (state, action)=>{
             state.isLoad = true;
@@ -60,6 +74,8 @@ const tokenSlice = createSlice({
     }
 })
 
+
+export const {clearToken} = tokenSlice.actions;
 export default tokenSlice.reducer
 
 

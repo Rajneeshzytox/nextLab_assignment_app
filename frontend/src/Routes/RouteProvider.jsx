@@ -9,7 +9,10 @@ import Login from "../components/utils/Login"
 import Register from "../components/utils/Register"
 import Admin from "../admin/Admin"
 import User from "../User/User"
+import Layout from "../Layout"
 
+// user COmponents: 
+import Profile from "../User/user_components/Profile"
 
 // local Data 
 import { local_profile } from "../states/userInfo_slice"
@@ -43,19 +46,30 @@ export default function RouteProvider(){
                 <Route path="login/" element={<Login/>} />
                 <Route path="register/" element={<Register/>} />
                 
-                {/* Amin Page */}
-                <Route path="admin/" element = {
-                    <ProtectedRoutes allowed_roles={admin_page_allowed_roles}>
-                        <Admin/>
-                    </ProtectedRoutes>
-                } />
 
-                {/* User Home Page */}
-                <Route path="/" element = {
-                    <ProtectedRoutes allowed_roles={user_page_allowed_roles}>
-                    <User/>
-                </ProtectedRoutes>
-                } />
+                <Route path="/" element = {<Layout/>}>
+                    {/* User Home Page */}
+                    <Route exact path="" element = {
+                            <ProtectedRoutes allowed_roles={user_page_allowed_roles}>
+                                <User/>
+                            </ProtectedRoutes>
+                    } >
+                        <Route path="profile" element={<Profile/>}/>
+                    </Route>
+
+                    {/* Amin Page */}
+                    <Route path="admin/" element = {
+                        <ProtectedRoutes allowed_roles={admin_page_allowed_roles}>
+                            <Admin/>
+                        </ProtectedRoutes>
+                    } />
+
+                </Route>
+
+
+                
+
+                
                     
                 <Route path="*" element={<Not_Found_404/>} />
             </Routes>

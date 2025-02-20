@@ -29,6 +29,29 @@ const profile = {
 const userSlice = createSlice({
     name : "UserInfo",
     initialState: profile,
+    reducers: {
+        clearProfile: (state, action)=>{
+            // clear state
+            // // clear profile from local 
+            localStorage.clear('profile')
+
+            return {
+                isLoad: false,
+                isError: false,
+                message: "",
+                data: {
+                    "username": "",
+                    "first_name":  "",
+                    "last_name": "",
+                    "email": "",
+                    "role": "",
+                    "points": null,
+                }
+            }
+
+            
+        }
+    },
     extraReducers: (builder) =>{
         builder.addCase(fetchUserProfile.pending, (state, action)=>{
             state.isLoad = true
@@ -67,4 +90,6 @@ const userSlice = createSlice({
     }
 })
 
+
+export const {clearProfile} = userSlice.actions;
 export default userSlice.reducer

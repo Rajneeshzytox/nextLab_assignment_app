@@ -1,20 +1,26 @@
 import Sidebar from "./components/ui/Sidebar"
+import { Outlet } from "react-router-dom"
 
+// css
 import "./styles/layout.css"
 
-export default function Layout({sidebar_data, content}){
+// Sidebbar Items Data
+import { SidebarItems } from "./states/SidebarItems"
 
+export default function Layout(){
+    const sidebar_data = SidebarItems()
+    
     return (
         <>
-        <main className="main-layout-container w-full min-h-screen *:outline-dashed">
+        <main className="main-layout-container h-full w-full">
             {/* sidebar */}
-            <section className="sidebar-container max-md:fixed">
+            <section className="sidebar-container max-md:fixed h-full">
                 <Sidebar sidebar_data={sidebar_data}/>
             </section>
 
             {/* main content */}
             <section className="content-container ">
-                {content}
+                <Outlet/>
             </section>
         </main>
         </>
