@@ -19,7 +19,7 @@ export default function Layout(){
             </section>
 
             {/* main content */}
-            <section className="content-container ">
+            <section className="content-container md:max-h-screen md:overflow-y-scroll">
                 <Outlet/>
             </section>
         </main>

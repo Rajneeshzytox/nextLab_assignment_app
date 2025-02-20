@@ -46,7 +46,7 @@ export function TypoH4({children, className}){
 export function TypoP({children, className}){
 
     return (
-        <p className={`${className} leading-7 [&:not(:first-child)]:mt-6`}>
+        <p className={`${className} leading-7 `}>
             {children}
         </p>
     )

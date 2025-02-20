@@ -5,7 +5,7 @@ export default function Admin(){
 
      return (
         <>
-            <main className="Admin_container size-full grid place-content-center">
+            <main className="Admin_container size-full max-md:pt-20 pt-10 px-8 min-h-screen">
                 
 
                 <p>

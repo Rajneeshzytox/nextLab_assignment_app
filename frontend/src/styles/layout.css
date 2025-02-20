@@ -2,7 +2,6 @@
     display: grid;
     grid-template-areas: "sidebar content";
     grid-template-columns: auto 1fr;
-
     
 }
 .sidebar-container{
