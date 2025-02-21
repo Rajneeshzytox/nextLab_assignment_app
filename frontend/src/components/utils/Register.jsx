@@ -3,7 +3,7 @@ import {useNavigate, Link} from "react-router-dom"
 
 // token 
 import {useDispatch, useSelector} from "react-redux"
-import { fetchTokenID, local_token } from "../../states/token_slice" 
+import { fetchTokenID } from "../../states/token_slice" 
 import { fetchUserProfile } from "../../states/userInfo_slice"
 // ui
 import Input from "../ui/Input"
