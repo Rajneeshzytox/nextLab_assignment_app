@@ -7,6 +7,10 @@ import profile_slice  from "./userInfo_slice"
 // user slices
 import not_claimed_apps from "./UserStates/apps_not_claimed"
 import history from "./UserStates/history_slice"
+
+// admin slicess
+import categories from "./AdminStates/categoriesSlice"
+
 // store
 export default configureStore({
     reducer : {
@@ -14,5 +18,6 @@ export default configureStore({
         profile : profile_slice,
         pending_apps : not_claimed_apps,
         history: history,
+        categories: categories,
     }
 })
