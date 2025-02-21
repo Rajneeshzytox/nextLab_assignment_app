@@ -4,6 +4,7 @@ import {
     LucideAppWindow,
     ServerIcon,
     HistoryIcon,
+    ChartNoAxesGanttIcon,
 } from "lucide-react"
 
 export const SidebarItems = () => {
@@ -15,6 +16,8 @@ export const SidebarItems = () => {
             { title: "profile", link: "profile", icon: <User2Icon/>, allowed_roles: ['user', 'admin'] },
             
             { title: "history", link: "history", icon: <HistoryIcon/>, allowed_roles: ['user', 'admin'] },
+
+            { title: "categories", link: "/admin/categories", icon: <ChartNoAxesGanttIcon/>, allowed_roles: ['admin'] },
         ]
     return data;
 }
