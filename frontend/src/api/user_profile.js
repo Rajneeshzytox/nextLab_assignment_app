@@ -10,7 +10,7 @@ export const fetchProfile = async (token) => {
         return {status: 400, message: "Token not present"}
     }
     headers["Authorization"] = `token ${token}`;
-    console.log(headers)
+    // console.log(headers)
 
     // try to get data
     try {

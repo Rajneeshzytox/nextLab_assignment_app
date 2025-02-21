@@ -20,24 +20,27 @@ import { local_token } from "../states/token_slice";
 // state
 import {useSelector, useDispatch} from "react-redux"
 import { fetchUserProfile } from "../states/userInfo_slice";
+import Tasks from "../User/user_components/Tasks"
 
 export default function RouteProvider(){
     const token = useSelector(s=>s.token);
     const profile = useSelector(s=>s.profile)
     const dispatch = useDispatch()
 
-    const isToken_present = local_token? local_token : token.key;
-    const isUserData_present =  local_profile?.role ? local_profile?.role : profile.data.role ;
+    const isToken_present = token.key;
+    const isUserData_present = profile.data.role ;
+    const admin_page_allowed_roles = ['admin']
+    const user_page_allowed_roles = ['admin', 'user']
+
 
     // check if tokenn is present then fetch role
     useEffect(()=>{
         if(isToken_present && !isUserData_present){
+            alert("token present but not role")
             dispatch(fetchUserProfile({token:isToken_present}))
         }
     }, [isToken_present, isUserData_present])
 
-    const admin_page_allowed_roles = ['admin']
-    const user_page_allowed_roles = ['admin', 'user']
 
     return (
         <>
@@ -54,6 +57,7 @@ export default function RouteProvider(){
                                 <User/>
                             </ProtectedRoutes>
                     } >
+                        <Route path="" element={<Tasks/>}/>
                         <Route path="profile" element={<Profile/>}/>
                     </Route>
 
