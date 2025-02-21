@@ -500,5 +500,43 @@ and again so on, so on...
 
 #### get-apps not claimed
 
+GET res 200:
+```json
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": 1,
+      "title": "app-2",
+      "points": 0,
+      "img": null,
+      "url": "http://google.com",
+      "categories": [
+        {
+          "id": 1,
+          "title": "abcd",
+          "date_created": "2025-02-14"
+        }
+      ],
+      "sub_categories": [
+        {
+          "id": 1,
+          "title": "sub-cat-1",
+          "category": {
+            "id": 1,
+            "title": "abcd",
+            "date_created": "2025-02-14"
+          },
+          "date_created": "2025-02-14"
+        }
+      ],
+      "is_active": true,
+      "date_created": "2025-02-14"
+    },
+    
+  ]
+}
+```
+
 
 ## Download App and point system 
