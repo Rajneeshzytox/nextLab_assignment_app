@@ -19,6 +19,7 @@ import History from "../User/user_components/History"
 import {useSelector, useDispatch} from "react-redux"
 import { fetchUserProfile } from "../states/userInfo_slice";
 import Tasks from "../User/user_components/Tasks"
+import Categories from "../admin/admin_components/Categories"
 
 export default function RouteProvider(){
     const token = useSelector(s=>s.token);
@@ -48,8 +49,8 @@ export default function RouteProvider(){
                 <Route path="register/" element={<Register/>} />
                 
 
+                {/* User Home Page */}
                 <Route path="/" element = {<Layout/>}>
-                    {/* User Home Page */}
                     <Route exact path="" element = {
                             <ProtectedRoutes allowed_roles={user_page_allowed_roles}>
                                 <User/>
@@ -60,12 +61,16 @@ export default function RouteProvider(){
                         <Route path="history" element={<History/>}/>
                     </Route>
 
+
                     {/* Amin Page */}
-                    <Route path="admin/" element = {
+                    <Route exact path="admin/" element = {
                         <ProtectedRoutes allowed_roles={admin_page_allowed_roles}>
                             <Admin/>
                         </ProtectedRoutes>
-                    } />
+                    } >
+
+                        <Route path="categories" element={<Categories/>}/>
+                    </Route>
 
                 </Route>
 
