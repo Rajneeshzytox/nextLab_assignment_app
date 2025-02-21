@@ -14,12 +14,12 @@ export default function Layout(){
         <>
         <main className="main-layout-container h-full w-full">
             {/* sidebar */}
-            <section className="sidebar-container max-md:fixed h-full">
+            <section className="sidebar-container max-md:fixed h-full z-50">
                 <Sidebar sidebar_data={sidebar_data}/>
             </section>
 
             {/* main content */}
-            <section className="content-container md:max-h-screen md:overflow-y-scroll">
+            <section className="content-container md:max-h-screen md:overflow-y-scroll z-0">
                 <Outlet/>
             </section>
         </main>
