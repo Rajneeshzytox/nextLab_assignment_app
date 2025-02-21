@@ -26,15 +26,15 @@ export default function RouteProvider(){
     const profile = useSelector(s=>s.profile)
     const dispatch = useDispatch()
 
-    const isToken_present = token.key || local_token;
-    const isUserData_present =  local_profile?.role || profile.data.role ;
+    const isToken_present = local_token? local_token : token.key;
+    const isUserData_present =  local_profile?.role ? local_profile?.role : profile.data.role ;
 
     // check if tokenn is present then fetch role
     useEffect(()=>{
         if(isToken_present && !isUserData_present){
             dispatch(fetchUserProfile({token:isToken_present}))
         }
-    }, [profile.data.role])
+    }, [isToken_present, isUserData_present])
 
     const admin_page_allowed_roles = ['admin']
     const user_page_allowed_roles = ['admin', 'user']
