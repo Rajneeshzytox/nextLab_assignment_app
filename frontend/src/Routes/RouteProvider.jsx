@@ -13,10 +13,8 @@ import Layout from "../Layout"
 
 // user COmponents: 
 import Profile from "../User/user_components/Profile"
+import History from "../User/user_components/History"
 
-// local Data 
-import { local_profile } from "../states/userInfo_slice"
-import { local_token } from "../states/token_slice";
 // state
 import {useSelector, useDispatch} from "react-redux"
 import { fetchUserProfile } from "../states/userInfo_slice";
@@ -59,6 +57,7 @@ export default function RouteProvider(){
                     } >
                         <Route path="" element={<Tasks/>}/>
                         <Route path="profile" element={<Profile/>}/>
+                        <Route path="history" element={<History/>}/>
                     </Route>
 
                     {/* Amin Page */}
