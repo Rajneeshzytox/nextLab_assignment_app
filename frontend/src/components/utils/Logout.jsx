@@ -1,29 +1,31 @@
 // logout will delete token, and all data
 
 // dispatch
-import {useDispatch} from "react-redux"
-
-// navigate
-import {useNavigate} from "react-router-dom"
+import {useDispatch, useSelector} from "react-redux"
 
 // clear actions
 import { clearToken } from "../../states/token_slice"
 import { clearProfile } from "../../states/userInfo_slice"
+ 
 
 // icon 
 import {LogOutIcon} from "lucide-react"
-
+import { logout } from "../../api/logout"
 
 export default function Logout({show_title}){
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const token_key = useSelector(s=>s.token.key)
 
-    // handleLogout
-    const handleLogout = () => {
-        
+    const clear_data = () => {
         dispatch(clearToken())
         dispatch(clearProfile())
-        navigate("/login")
+    }
+    // handleLogout
+    const handleLogout = async () => {
+        await logout(token_key);
+        setTimeout(()=>{
+            clear_data()
+        }, 2000)
     }
 
     return (
