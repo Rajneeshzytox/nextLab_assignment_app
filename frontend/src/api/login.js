@@ -1,11 +1,11 @@
-import { API_Routes, API_Headers } from "./api_base";
-
+import { API_Routes } from "./api_base";
 
 const login = async (login_data) => {
+    
     try {
         const res = await fetch(API_Routes.login, {
             method: "POST", 
-            headers: API_Headers,
+            headers: {"Content-Type": "application/json"},
             body: JSON.stringify(login_data)
         })
 
