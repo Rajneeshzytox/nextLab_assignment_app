@@ -496,6 +496,24 @@ and again so on, so on...
 
 ### History
 
+Get Response 200: 
+```json
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": 3,
+      "appID": 2,
+      "appImg": "appImg/pic_raj.jpg",
+      "appName": "app-1",
+      "user_id": "temp",
+      "date": "2025-02-18T13:29:27.875660Z",
+      "points_earned": 5
+    }
+  ]
+}
+```
+
 ### Get-apps 
 
 #### get-apps not claimed
