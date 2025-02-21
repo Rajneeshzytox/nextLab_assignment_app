@@ -34,7 +34,7 @@ export default function RouteProvider(){
     // check if tokenn is present then fetch role
     useEffect(()=>{
         if(isToken_present && !isUserData_present){
-            alert("token present but not role")
+            // alert("token present but not role")
             dispatch(fetchUserProfile({token:isToken_present}))
         }
     }, [isToken_present, isUserData_present])

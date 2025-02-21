@@ -13,7 +13,6 @@ import {
   TypoSmall,
 } from "../../components/ui/Typo";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 
 // task Card
 export function TaskCard({ app }) {
@@ -105,7 +104,7 @@ export default function Tasks() {
 
   useEffect(() => {
     if (pending_apps.data.length == 0) {
-      alert("fetching tasks,");
+      // alert("fetching tasks,");
       dispatch(fetch_not_claimed_apps());
     }
   }, [pending_apps.data]);

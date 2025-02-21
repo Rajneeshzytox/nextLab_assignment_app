@@ -93,7 +93,7 @@ export default function History() {
 
   useEffect(() => {
     if (history_state.data.length == 0) {
-      alert("fetching history");
+      // alert("fetching history");
       dispatch(fetchHistory());
     }
   }, []);
@@ -126,14 +126,14 @@ export default function History() {
                 </thead>
                 <tbody>
                 {history_state.data.map((point_history, i) => (
-                    <>
+                    
                     <tr
-                        key={point_history.appName + i}
+                        key={i}
                         className={`*:px-4 *:py-2 ${i%2==0? "bg-slate-200": ""}`}
                     >
                         <TableData table_row_data={point_history} index={i} />
                     </tr>
-                    </>
+                    
                 ))}
                 </tbody>
             </table>
