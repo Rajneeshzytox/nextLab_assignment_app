@@ -100,7 +100,7 @@ export default function Register(){
                 navigate("/")
             }, 500);
         }
-    }, [token.message, token.isError, token.key])
+    }, [token.message, token.isError, token.key, profile.role])
 
     return (
         <main className="flex min-h-screen">
