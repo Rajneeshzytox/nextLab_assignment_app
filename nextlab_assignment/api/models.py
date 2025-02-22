@@ -42,7 +42,7 @@ class SubCategory(models.Model):
 class App(models.Model):
     title = models.CharField(max_length=50)
     points = models.PositiveIntegerField(default=0)
-    img = models.ImageField(upload_to="appImg", null=True, blank=True)
+    img = models.URLField(null=True, blank=True)
     url = models.URLField()
     categories = models.ManyToManyField(Category, blank=True)
     sub_categories = models.ManyToManyField(SubCategory, blank=True)
@@ -61,7 +61,12 @@ class DownloadHistory(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="download_history_user")
     
     date = models.DateTimeField(auto_now_add=True)
+
     points_earned = models.PositiveIntegerField()
+
+    is_verified = models.BooleanField(default=False)
+
+    user_screenshot = models.URLField(unique=True)
 
     def __str__(self):
         return f"{self.user_id} {self.app_id}"
