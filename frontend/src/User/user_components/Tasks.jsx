@@ -102,12 +102,17 @@ export default function Tasks() {
   const pending_apps = useSelector((s) => s.pending_apps);
   const dispatch = useDispatch();
 
+
+  // HEY NEVER REMOVE This STATE AS tHERE WILL BE INFINITE REQUEST CALLS
+  const [Limit_fetch, setLimit_fetch] = useState(2)
+
   useEffect(() => {
-    if (pending_apps.data.length == 0) {
+    if (pending_apps.data.length == 0 && Limit_fetch>0) {
       // alert("fetching tasks,");
+      setLimit_fetch(p=>p-1)
       dispatch(fetch_not_claimed_apps());
     }
-  }, [pending_apps.data]);
+  }, [dispatch, pending_apps.data]);
 
   if (pending_apps.isLoad) {
     return <p>Loading...</p>;
