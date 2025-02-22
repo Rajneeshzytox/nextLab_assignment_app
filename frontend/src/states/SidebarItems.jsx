@@ -1,5 +1,5 @@
 import {
-    HomeIcon,
+    AirplayIcon,
     User2Icon,
     LucideAppWindow,
     ServerIcon,
@@ -20,6 +20,8 @@ export const SidebarItems = () => {
             { title: "categories", link: "/admin/categories", icon: <ChartNoAxesGanttIcon/>, allowed_roles: ['admin'] },
             
             { title: "Sub Categories", link: "/admin/sub-categories", icon: <ChartNoAxesGanttIcon/>, allowed_roles: ['admin'] },
+
+            { title: "Apps", link: "/admin/apps", icon: <AirplayIcon/>, allowed_roles: ['admin'] },
         ]
     return data;
 }
