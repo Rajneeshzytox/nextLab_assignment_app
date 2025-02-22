@@ -41,19 +41,6 @@ const initialState = {
 const categoriesSlice = createSlice({
     name: 'categories',
     initialState,
-    reducers: {
-        addCategory: (state, action) => {
-            state.data = [...state.data, action.payload]
-        },
-        updateCategoryLocally: (state, action) => {
-            state.data = state.data.map(category => 
-                category.id == action.payload.id ? { ...category, ...action.payload } : category
-            )
-        },
-        deleteCategoryLocally: (state, action) => {
-            state.data = state.data.filter(category => category.id !== action.payload)
-        },
-    },
     extraReducers: (builder) => {
         builder
             // GET 
@@ -149,7 +136,5 @@ const categoriesSlice = createSlice({
     },
 })
 
-
-export const { addCategory, updateCategoryLocally, deleteCategoryLocally } = categoriesSlice.actions
 
 export default categoriesSlice.reducer
