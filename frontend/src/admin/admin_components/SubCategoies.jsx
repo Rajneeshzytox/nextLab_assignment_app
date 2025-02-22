@@ -9,6 +9,10 @@ import {
 import { fetchALLCategories } from "../../states/AdminStates/categoriesSlice";
 import { NavLink } from "react-router-dom";
 
+// date format 
+import dateFormat, { masks } from "dateformat"
+// {dateFormat(date, "dddd, mmmm dS, yyyy, h:MM TT")}
+
 export default function SubCategories() {
   const dispatch = useDispatch();
   const categories = useSelector((s) => s.categories);
@@ -169,7 +173,10 @@ export default function SubCategories() {
         {data.length == 0 ? (
           <p>Looks like no sub Categories</p>
         ) : (
-          <table>
+          <table className='
+            *:*:border-b *:*:border-slate-700
+            *:*:*:px-4 *:*:*:py-2 *:*:*:text-nowrap *:*:*:whitespace-nowrap'
+          >
             {/* HEAD TABLE */}
             <thead>
               <tr className="*:pr-10">
@@ -234,7 +241,8 @@ export default function SubCategories() {
 
                   {/* date  */}
                   <td>
-                    {new Date(subCategory.date_created).toLocaleDateString()}
+                    {/* {new Date(subCategory.date_created).toLocaleDateString()} */}
+                    {dateFormat(new Date(subCategory.date_created), "dddd, mmmm dS, yyyy, h:MM TT")}
                   </td>
 
                   {/* update */}

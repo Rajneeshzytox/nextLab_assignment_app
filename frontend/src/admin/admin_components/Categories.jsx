@@ -2,6 +2,10 @@ import { useEffect, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchALLCategories, deleteCategoryThunk, updateCategoryThunk, createCategoryThunk } from '../../states/AdminStates/categoriesSlice';
 
+// date format 
+import dateFormat, { masks } from "dateformat"
+// {dateFormat(date, "dddd, mmmm dS, yyyy, h:MM TT")}
+
 export default function Categories(){
     const dispatch = useDispatch();
     const { data, isLoad, isError, message } = useSelector(s=>s.categories) ;
@@ -92,7 +96,10 @@ export default function Categories(){
             {data.length == 0 ? (
                 <p>Looks like no Categories</p>
             ) : (
-                <table>
+                <table className='
+                    *:*:border-b *:*:border-slate-700
+                    *:*:*:px-4 *:*:*:py-2 *:*:*:text-nowrap *:*:*:whitespace-nowrap' 
+                >
 
                     {/* HEAD TABLE */}
                     <thead>
@@ -131,7 +138,8 @@ export default function Categories(){
 
 
                                 {/* date  */}
-                                <td>{new Date(category.date_created).toLocaleDateString()}</td>
+                                {/* <td>{new Date(category.date_created).toLocaleDateString()}</td> */}
+                                <td>{dateFormat(new Date(category.date_created), "dddd, mmmm dS, yyyy, h:MM TT")}</td>
                                 
                                 {/* update */}
                                 <td>
