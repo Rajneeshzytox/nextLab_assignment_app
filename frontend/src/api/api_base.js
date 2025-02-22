@@ -13,6 +13,8 @@ export const API_Routes = {
     admin : API_BASE + '/admin/',
     categories : API_BASE + '/categories/',
     subCategories : API_BASE + '/sub-categories/',
+    apps : API_BASE + '/apps/',
+
 
     profile : API_BASE + '/profile/',
     history : API_BASE + '/history/',
