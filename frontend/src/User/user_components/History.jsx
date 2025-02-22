@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 // state
 import { useSelector, useDispatch } from "react-redux";
@@ -18,6 +18,7 @@ import {
 
 // date format 
 import dateFormat, { masks } from "dateformat"
+// {dateFormat(date_app, "dddd, mmmm dS, yyyy, h:MM TT")}
 
 // TABLE ROW: ===>
 const TableRow = () => {
@@ -91,12 +92,16 @@ export default function History() {
   const history_state = useSelector((s) => s.history);
   const dispatch = useDispatch();
 
+  // HEY NEVER REMOVE This STATE AS tHERE WILL BE INFINITE REQUEST CALLS
+  const [Limit_fetch, setLimit_fetch] = useState(2)
+
   useEffect(() => {
-    if (history_state.data.length == 0) {
+    if (history_state.data.length == 0 && Limit_fetch>0) {
       // alert("fetching history");
+      setLimit_fetch(p=>p-1)
       dispatch(fetchHistory());
     }
-  }, []);
+  }, [dispatch, history_state.data]);
 
   if (history_state.isLoad) {
     return <p>Loading...</p>;
