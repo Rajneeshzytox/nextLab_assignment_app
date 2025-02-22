@@ -19,8 +19,12 @@ import History from "../User/user_components/History"
 import {useSelector, useDispatch} from "react-redux"
 import { fetchUserProfile } from "../states/userInfo_slice";
 import Tasks from "../User/user_components/Tasks"
+
+// admin components
 import Categories from "../admin/admin_components/Categories"
 import SubCategories from "../admin/admin_components/SubCategoies"
+import AppsList from "../admin/admin_components/AdminAppsList"
+
 
 export default function RouteProvider(){
     const token = useSelector(s=>s.token);
@@ -72,6 +76,7 @@ export default function RouteProvider(){
 
                         <Route path="categories" element={<Categories/>}/>
                         <Route path="sub-categories" element={<SubCategories/>}/>
+                        <Route path="apps" element={<AppsList/>}/>
                     </Route>
 
                 </Route>
