@@ -70,16 +70,22 @@ class DownloadHistorySerializer(serializers.ModelSerializer):
     appName = serializers.CharField(source='app_id.title')
     appImg = serializers.CharField(source='app_id.img')
 
-    user_id = serializers.StringRelatedField()
+    username = serializers.CharField(source='user_id.username')
+    userID = serializers.CharField(source='user_id.id')
 
     class Meta:
         model = DownloadHistory
-        fields = ['id', 'appID', 'appImg', 'appName', 'user_id', 'date', 'points_earned', 'is_verified', 'user_screenshot']
+        fields = ['id', 'appID', 'appImg', 'appName', 'userID', 'username', 'date', 'points_earned', 'is_verified', 'user_screenshot']
         extra_kwargs = {
+            'id': {"read_only":True},
             'appID': {"read_only":True},
             'appName': {"read_only":True},
             'appImg': {"read_only":True},
             'is_verified': {"read_only":True},
+            'userID': {"read_only":True},
+            'username': {"read_only":True},
+            'date': {"read_only":True},
+            'points_earned': {"read_only":True},
         }
 
 
