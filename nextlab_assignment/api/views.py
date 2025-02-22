@@ -193,7 +193,7 @@ class DownloadAppAPIView(APIView):
 
 
         # checking if already in history
-        if(DownloadHistory.objects.filter(user_id = req.user, app_id = app)):
+        if(DownloadHistory.objects.all().filter(user_id = req.user, app_id = app)):
             return Response({"status": "not", "message": "Dont be greedy already in downloaded, if you didnt receive points, wait for admin to verify. or just cry, like me while developing this assignment", "errors": "Already in Downloaed History Wait for admin to verify"})
         
         # checking if screenshto exist
@@ -218,3 +218,43 @@ class DownloadAppAPIView(APIView):
             "status": "ok",
             "message": f"point claim req {app.title} confirmed. {download_history.points_earned} points will be awarded after admin verification"
         })
+    
+
+
+# Admin assign points : 
+# get user_id, app_id ->  get the downloadHistory object -> update to verified -> give points to USer profile
+
+class AssignPointsApiView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated, IsAdmin]
+
+    def post(self, req) :
+        if not (req.data.get('user_id') and req.data.get('app_id')):
+            return Response({"status":"not", "message": "provide both user ID and App ID"})
+        user_id = req.data.get('user_id')
+        app_id = req.data.get('app_id')
+
+        # Download history check if exist:
+        # i am not checking if user or app exist btw...
+        download_history = DownloadHistory.objects.all().filter(app_id = app_id, user_id=user_id)
+        if(not download_history):
+            return Response({"status":"not", "message": "Download History with this user_id & app_id not exist"})
+        
+        # checking if already verified: 
+        if(download_history.is_verified):
+            return Response({"status":"not", "message": "Wait Wait Wait, User already got the points... you arent rich, & if you are then donate me..."})
+        
+        # setting verified to true 
+        download_history.is_verified = True
+        download_history.save()
+
+        # giving points to user 
+        user_profile = UserProfile.objects.get(user=user_id)
+        user_profile.points += download_history.points_earned
+        user_profile.save()
+
+        return Response({
+            "status": "ok",
+            "message": f"point {download_history.points_earned} assigned to {user_profile.user.username}"
+        }) 
+
