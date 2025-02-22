@@ -18,6 +18,8 @@ export const SidebarItems = () => {
             { title: "history", link: "history", icon: <HistoryIcon/>, allowed_roles: ['user', 'admin'] },
 
             { title: "categories", link: "/admin/categories", icon: <ChartNoAxesGanttIcon/>, allowed_roles: ['admin'] },
+            
+            { title: "Sub Categories", link: "/admin/sub-categories", icon: <ChartNoAxesGanttIcon/>, allowed_roles: ['admin'] },
         ]
     return data;
 }
