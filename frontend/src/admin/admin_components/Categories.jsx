@@ -86,6 +86,8 @@ export default function Categories(){
                 <button onClick={()=>handleAddCategory(newTitle)}>add category</button>
             </div>
 
+
+            <div className="max-w-[900px] mx-auto overflow-x-scroll my-8">
             {/* if data available then map */}
             {data.length == 0 ? (
                 <p>Looks like no Categories</p>
@@ -153,6 +155,7 @@ export default function Categories(){
                     </tbody>
                 </table>
             )}
+            </div>
         </div>
     )
 }
