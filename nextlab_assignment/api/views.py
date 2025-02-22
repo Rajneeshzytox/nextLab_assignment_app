@@ -121,11 +121,11 @@ class GetAppAPIView(APIView):
                 downloaded_apps.append(objects.app_id.id)
 
             # apps not in downloaded_apps
-            apps = App.objects.exclude(id__in=downloaded_apps)
+            apps = App.objects.exclude(id__in=downloaded_apps).filter(is_active=True)
             serialized_data = AppSerializer(apps, many=True)
             return Response({"status": "ok", "data": serialized_data.data})
 
-        apps = App.objects.all()
+        apps = App.objects.all().filter(is_active=True)
         serialized_data = AppSerializer(apps, many=True)
 
         return Response({"status": "ok", "data": serialized_data.data})
@@ -181,7 +181,7 @@ class DownloadAppAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def get(self, req, app_id):
+    def post(self, req, app_id):
         try: 
             app = App.objects.get(id = app_id)
         except:
@@ -194,24 +194,27 @@ class DownloadAppAPIView(APIView):
 
         # checking if already in history
         if(DownloadHistory.objects.filter(user_id = req.user, app_id = app)):
-            return Response({"status": "not", "message": "Dont be greedy", "errors": "Already Downloaed"})
+            return Response({"status": "not", "message": "Dont be greedy already in downloaded, if you didnt receive points, wait for admin to verify. or just cry, like me while developing this assignment", "errors": "Already in Downloaed History Wait for admin to verify"})
         
+        # checking if screenshto exist
+        if(not req.data.get('user_screenshot')):
+            return Response({"status": "not", "message": "how we can know if you downloaded the app? upload screenshot"})
         
-        # if not downloaded, add to history
+        # if not downloaded & screenshot exist, add to history
         download_history = DownloadHistory.objects.create(
             user_id=req.user,
             app_id=app,
-            points_earned=app.points
+            points_earned=app.points,
+            user_screenshot = req.data.get('user_screenshot')
         )
         download_history.save()
 
-        # add pont to user profile
-        user_profile = UserProfile.objects.get(user=req.user)
-        user_profile.points += download_history.points_earned
-        user_profile.save()
+        # # add pont to user profile, now we will add point through the admin verification
+        # user_profile = UserProfile.objects.get(user=req.user)
+        # user_profile.points += download_history.points_earned
+        # user_profile.save()
 
         return Response({
             "status": "ok",
-            "message": f"Download of {app.title} confirmed. {download_history.points_earned} points awarded",
-            "user_points": user_profile.points
+            "message": f"point claim req {app.title} confirmed. {download_history.points_earned} points will be awarded after admin verification"
         })
