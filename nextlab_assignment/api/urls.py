@@ -27,6 +27,7 @@ urlpatterns = [
     path('profile/', UserProfileUpdateDeleteApiView.as_view(), name='profile'),
     path('get-apps/', GetAppAPIView.as_view(), name='all-apps'),
     path('download/<int:app_id>/', DownloadAppAPIView.as_view(), name="download-app"),
+    path('verified/', AssignPointsApiView.as_view(), name="assign-points"),
 
     # routes
     path('', include(router.urls)),
