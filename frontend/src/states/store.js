@@ -11,6 +11,7 @@ import history from "./UserStates/history_slice"
 // admin slicess
 import categories from "./AdminStates/categoriesSlice"
 import subCategories from "./AdminStates/subCategoriesSlices"
+import apps from "./AdminStates/appsSlices"
 
 // store
 export default configureStore({
@@ -21,5 +22,6 @@ export default configureStore({
         history: history,
         categories: categories,
         subCategories: subCategories,
+        apps, apps,
     }
 })
