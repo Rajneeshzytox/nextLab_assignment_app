@@ -19,8 +19,11 @@ App:
 - [`profile/`](#profile) : profile `get` `put` `delete`
 
 System: 
-- [`download/<int:app_id>/`](#download-app-and-point-system) : download-app {reward points for downloading apps. if not already download or app inactive}
+- [`download/<int:app_id>/`](#downloadintapp_id) : add app to download History, with verification pending
 
+- [`user-with/<int:appId>/`](#user-withintappid) : Returns All user with `appId`, it has filter `status` : `pending` | `verified`. Filter Should be in url, `user-with/<int:appId>/` -> `?status=pending` or `?status=verified`
+
+- [`verified/`](#verified) : Verify App download. Assign Points to user
 
 ---
 
@@ -558,3 +561,139 @@ GET res 200:
 
 
 ## Download App and point system 
+
+### download/<int:app_id>/
+
+/download/{id}/ : it check
+  - [if app exist](#if-invalid-app-id-200-ok)
+  - [if app is active](#if-app-is-inactive-200-ok)
+  - [if already downloaded](#if-already-downloaded-200-ok)
+  - [if screenshot provided](#if-user_screenshot-not-provide-200-ok)
+  - [if screenshot already in history](#if-image-url-already-exist-in-history-200-ok)
+  - [Done, Add to history with is_verified: false](#response-ok-200)
+  
+
+`POST`: user screen shot image url: 
+  ```json
+  {
+    "user_screenshot": "https://someUrl/abc.png"
+  }
+  ```
+
+- ##### Response: `ok 200`:
+  ```json
+  {
+    "status": "ok",
+    "message": "point claim req app1 confirmed. 10 points will be awarded after admin verification"
+  }
+  ```
+
+- ##### If image url already exist in history `200 ok`:
+  ```json
+  {
+    "status": "not",
+    "message": "Please try with different img url, or img name"}
+  ```
+
+- ##### If invalid app id `200 ok`:
+  ```json
+    {
+      "status": "not",
+      "message": "APP not exists",
+      "errors": "APP not exists"
+    }
+  ```
+- ##### If already downloaded `200 ok`:
+  ```json
+  {
+    "status": "not",
+    "message": "Dont be greedy. already in downloaded, if you didnt receive points, wait for admin to verify. or just cry, like me while developing this assignment",
+    "errors": "Already in Downloaed History Wait for admin to verify"
+  }
+  ```
+- ##### If app is inactive `200 ok`:
+  ```json
+  {
+    "status": "not",
+    "message": "you cant get points from dead",
+    "errors": "App is inactive"
+  }
+  ```
+- ##### If user_screenshot not provide `200 ok`:
+  ```json
+  {
+    "status": "not",
+    "message": "how we can know if you downloaded the app? upload screenshot"}
+  ```
+
+### user-with/<int:appId>/
+`GET` ../user-with/1/
+
+- Res `200 ok`:
+  ```json
+  {
+    "status": "ok",
+    "data": [
+      {
+        "id": 1,
+        "appID": 1,
+        "appImg": null,
+        "appName": "app1",
+        "userID": "4",
+        "username": "temp",
+        "date": "2025-02-22T08:40:59.116277Z",
+        "points_earned": 10,
+        "is_verified": true,
+        "user_screenshot": "https://google.com/"
+      },
+      ...
+    ]
+  }
+  ```
+
+- if user not exist `200 ok`:
+  ```json
+  {
+    "status": "ok",
+    "data": []
+  }
+  ```
+
+- if non int appid `404 Not Found`:
+
+
+### verified/
+ `Post` Request: 
+  ```json
+    {
+      'user_id': 1,
+      'app_id': 4
+    }
+  ```
+- Response `200 ok`:
+  ```json
+    {
+      "status": "ok",
+      "message": "point 10 assigned to temp"
+    }
+  ```
+
+- If user or app not exist: `200 ok`:
+  ```json
+    {
+      "status": "not",
+      "message": "Download History with this user_id & app_id not exist"
+    }
+  ```
+
+- if data is missing: `200 ok`:
+  ```json
+    {
+      "status": "not",
+      "message": "provide both user ID and App ID"
+    }
+  ```
+
+
+
+## other
