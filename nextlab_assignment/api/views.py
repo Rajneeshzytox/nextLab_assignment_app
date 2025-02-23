@@ -218,12 +218,19 @@ class DownloadAppAPIView(APIView):
 
 
         # checking if already in history
-        if(DownloadHistory.objects.all().filter(user_id = req.user, app_id = app)):
-            return Response({"status": "not", "message": "Dont be greedy already in downloaded, if you didnt receive points, wait for admin to verify. or just cry, like me while developing this assignment", "errors": "Already in Downloaed History Wait for admin to verify"})
+        if(DownloadHistory.objects.filter(user_id = req.user, app_id = app)):
+            return Response({"status": "not", "message": "Dont be greedy. already in downloaded, if you didnt receive points, wait for admin to verify. or just cry, like me while developing this assignment", "errors": "Already in Downloaed History Wait for admin to verify"})
         
         # checking if screenshto exist
         if(not req.data.get('user_screenshot')):
             return Response({"status": "not", "message": "how we can know if you downloaded the app? upload screenshot"})
+        
+        # if screenshot already present 
+        if(DownloadHistory.objects.filter(user_screenshot=req.data.get('user_screenshot'))):
+            return Response({"status": "not", "message": "Please try with different img url, or img name"})
+
+
+
         
         # if not downloaded & screenshot exist, add to history
         download_history = DownloadHistory.objects.create(
@@ -261,7 +268,7 @@ class AssignPointsApiView(APIView):
 
         # Download history check if exist:
         # i am not checking if user or app exist btw...
-        download_history = DownloadHistory.objects.all().filter(app_id = app_id, user_id=user_id)
+        download_history = DownloadHistory.objects.filter(app_id = app_id, user_id=user_id).first()
         if(not download_history):
             return Response({"status":"not", "message": "Download History with this user_id & app_id not exist"})
         
