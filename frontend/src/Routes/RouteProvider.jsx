@@ -24,6 +24,7 @@ import Tasks from "../User/user_components/Tasks"
 import Categories from "../admin/admin_components/Categories"
 import SubCategories from "../admin/admin_components/SubCategoies"
 import AppsList from "../admin/admin_components/AdminAppsList"
+import UserByApp from "../admin/admin_components/UserByApp"
 
 
 export default function RouteProvider(){
@@ -50,33 +51,35 @@ export default function RouteProvider(){
         <>
         <BrowserRouter>
             <Routes>
-                <Route path="login/" element={<Login/>} />
-                <Route path="register/" element={<Register/>} />
+                <Route exact path="login/" element={<Login/>} />
+                <Route exact path="register/" element={<Register/>} />
                 
 
                 {/* User Home Page */}
-                <Route path="/" element = {<Layout/>}>
+                <Route  exact path="/" element = {<Layout/>}>
                     <Route exact path="" element = {
                             <ProtectedRoutes allowed_roles={user_page_allowed_roles}>
                                 <User/>
                             </ProtectedRoutes>
                     } >
-                        <Route path="" element={<Tasks/>}/>
-                        <Route path="profile" element={<Profile/>}/>
-                        <Route path="history" element={<History/>}/>
+                        <Route exact path="" element={<Tasks/>}/>
+                        <Route exact path="profile" element={<Profile/>}/>
+                        <Route exact path="history" element={<History/>}/>
                     </Route>
 
 
                     {/* Amin Page */}
-                    <Route exact path="admin/" element = {
+                    <Route exact path="admin" element = {
                         <ProtectedRoutes allowed_roles={admin_page_allowed_roles}>
                             <Admin/>
                         </ProtectedRoutes>
                     } >
+                        {/* ADMIN COMPOMENETS */}
+                        <Route exact path="categories" element={<Categories/>}/>
+                        <Route exact path="sub-categories" element={<SubCategories/>}/>
+                        <Route exact path="apps" element={<AppsList/>} />
+                        <Route exact path="user-by-app/:appId" element={<UserByApp/>} />
 
-                        <Route path="categories" element={<Categories/>}/>
-                        <Route path="sub-categories" element={<SubCategories/>}/>
-                        <Route path="apps" element={<AppsList/>}/>
                     </Route>
 
                 </Route>
