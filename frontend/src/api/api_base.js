@@ -14,6 +14,7 @@ export const API_Routes = {
     categories : API_BASE + '/categories/',
     subCategories : API_BASE + '/sub-categories/',
     apps : API_BASE + '/apps/',
+    userByApp : API_BASE + '/user-with/',
 
 
     profile : API_BASE + '/profile/',
@@ -22,6 +23,7 @@ export const API_Routes = {
     notClaimed : API_BASE + '/get-apps/?not-claimed=true/',
     
     download : API_BASE + '/download/',
+    verify : API_BASE + '/verified/'
 
 }
 
