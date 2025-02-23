@@ -143,6 +143,31 @@ class DownloadHistoryAPIView(APIView):
         histories = DownloadHistory.objects.all().filter(user_id = req.user)
         serialized_data = DownloadHistorySerializer(histories, many=True)
         return Response({"status": "ok", "data": serialized_data.data})
+    
+# Filter : all Users by app id for admin
+class AppUserDownloadHistoryAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated, IsAdmin]
+
+    def get(self, req, appId):
+
+        # user with app but pending
+        if(req.GET.get('status') == 'pending'):
+            user_with_apps = DownloadHistory.objects.filter(app_id=appId, is_verified=False)
+            serialized_data = DownloadHistorySerializer(user_with_apps, many=True)
+            return Response({"status": "ok", "data": serialized_data.data})
+        
+        # user with app but verified
+        if(req.GET.get('status') == 'verified'):
+            user_with_apps = DownloadHistory.objects.filter(app_id=appId, is_verified=True)
+            serialized_data = DownloadHistorySerializer(user_with_apps, many=True)
+            return Response({"status": "ok", "data": serialized_data.data})
+
+        # all users with app 
+        user_with_apps = DownloadHistory.objects.filter(app_id=appId)
+        serialized_data = DownloadHistorySerializer(user_with_apps, many=True)
+        return Response({"status": "ok", "data": serialized_data.data})
+
 
 # ----------------------------------------
 # AUTH: 
