@@ -1,11 +1,18 @@
 // IMAGE UPLOAD is a mess: so i am using imgbb to upload images temp {1 week}, and then store url to db
-// imgbb api key
-const apiKey = ""
+
+// load api key
+const apiKey = import.meta.env.VITE_API_KEY_IMGBB
 
 export default async function uploadImage(fileInputID) {
+  // api key check 
+  if(!apiKey){
+    alert("api key not present")
+    return;
+  }
 
+  // get fileInput Element
   const fileInput = document.getElementById(fileInputID)
-//   if file present 
+  //   if file present 
   const file = fileInput.files[0]
   if(!file){
     alert("At least Upload a img")
