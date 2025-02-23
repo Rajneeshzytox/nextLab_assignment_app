@@ -111,6 +111,7 @@ if (isLoad) {
                 <th>ID</th>
                 <th>Title</th>
                 <th>Points</th>
+                <th>is_active</th>
                 <th>Date Created</th>
                 <th></th>
               </tr>
@@ -163,6 +164,21 @@ if (isLoad) {
                     )}
                   </td>
 
+                  {/* is acive app */}
+                  <td>
+                    {
+                      editMode && app.id == appIdToEdit ? (
+                        <label>is_active : 
+                          <input type="checkbox" defaultChecked={app.is_active} onChange={()=>setIsActive(p=>!p)} />
+                        </label>
+                      ): (
+                        <code className={`${app.is_active?"bg-green-200":"bg-red-200"} px-2`}>
+                          {app.is_active?"Public":"Private"}
+                        </code>
+                      )
+                    }
+                  </td>
+
                   {/* date created */}
                   <td>
                     {dateFormat(
@@ -176,17 +192,17 @@ if (isLoad) {
                     {editMode && app.id == appIdToEdit ? (
                       <>
                         {/* save button  */}
-                        <button onClick={handleSaveClick}>Save</button>
+                        <button onClick={handleSaveClick} className="bg-slate-200 py-1 px-2 rounded">Save</button>
 
                         {/* cancel button */}
-                        <button onClick={() => setEditMode(false)}>
+                        <button onClick={() => setEditMode(false)} className="bg-slate-200 py-1 px-2 rounded">
                           Cancel
                         </button>
                       </>
                     ) : (
                       <>
                       {/* View all USer with app in history */}
-                        <NavLink to={`/admin/apps/details/${app.id}`}>
+                        <NavLink to={`/admin/user-by-app/${app.id}`}>
                           <button className="bg-slate-200 py-1 px-2 rounded">
                             View
                           </button>
