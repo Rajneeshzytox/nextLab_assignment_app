@@ -44,19 +44,18 @@ class UserProfileUpdateDeleteApiView(APIView):
 
     def get(self, req):
         user  = get_object_or_404(UserProfile, user = req.user)
+
+        # if request for role: 
+        if(req.GET.get('role')):
+            return Response({"status": "ok", "data": {"role":user.role}})
+        
+        # if request for points: 
+        if(req.GET.get('points')):
+            return Response({"status": "ok", "data": {"points":user.points}})
+        
+        # return all data
         serialized_data = UserProfileSerializer(user)
         return Response({"status": "ok", "data": serialized_data.data})
-    
-    def put(self, req):
-        user = get_object_or_404(User, username = req.user)
-        if not user :
-            return Response({"status": "error", "error": "user not present"})
-        
-        user.first_name = req.data['first_name'] if 'first_name' in req.data else user.first_name
-        user.last_name = req.data['last_name'] if 'last_name' in req.data else user.last_name
-        user.email = req.data['email'] if 'email' in req.data else user.email
-        user.save()
-        return Response({"status": "ok", "message": f"first name : {  user.first_name}\nLast name : {  user.last_name}\n email : {user.email}"})
     
 
     def delete(self, request):
