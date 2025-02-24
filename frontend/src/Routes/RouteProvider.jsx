@@ -25,6 +25,7 @@ import Categories from "../admin/admin_components/Categories"
 import SubCategories from "../admin/admin_components/SubCategoies"
 import AppsList from "../admin/admin_components/AdminAppsList"
 import UserByApp from "../admin/admin_components/UserByApp"
+import MarkdownRenderer from "../components/ui/Markdown"
 
 
 export default function RouteProvider(){
@@ -75,6 +76,7 @@ export default function RouteProvider(){
                         </ProtectedRoutes>
                     } >
                         {/* ADMIN COMPOMENETS */}
+                        <Route exact path="" element={<MarkdownRenderer />}/>
                         <Route exact path="categories" element={<Categories/>}/>
                         <Route exact path="sub-categories" element={<SubCategories/>}/>
                         <Route exact path="apps" element={<AppsList/>} />
