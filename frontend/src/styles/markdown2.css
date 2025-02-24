@@ -24,6 +24,7 @@
 .markdown-container h4
 {
     border-bottom: 1px solid hsl(244,50%,80%);
+    font-weight: 600;
 }
 .markdown-container h1 {
     font-size: 2.25rem;
@@ -57,9 +58,8 @@
     width: max-content;
   font-size: 1rem;
   line-height: 1rem;
-  padding: 0rem 1rem;
+  padding: 0.25rem 0.25rem;
   margin: 1rem 0 0.25rem 0;
-  border-radius: 10px;
 }
 
 .markdown-container pre {
@@ -76,17 +76,34 @@
 }
 
 .markdown-container blockquote {
-  border-left: 4px solid #dfe2e5;
+  border-left: 4px solid hsl(244,20%,40%);
   padding-left: 15px;
   color: #6a737d;
 }
+.markdown-container blockquote:hover {
+  border-left: 4px solid hsl(244,10%,20%);
+}
 
 .markdown-container ul {
-  list-style-type: disc;
-  padding-left: 20px;
+  list-style-type: '- ';
+  padding-left: 30px;
+  margin-bottom: 1rem;
+  margin-top: 0.125rem;
 }
 
 .markdown-container ol {
   list-style-type: decimal;
-  padding-left: 20px;
+  padding-left: 30px;
+  margin-bottom: 1rem;
+  margin-top: 0.125rem;
 }
+
+
+.markdown-container a {
+  color: hsl(244,60%,60%);
+  background-color: hsl(244,50%,90%);
+}
+.markdown-container a:hover {
+  text-decoration: underline;
+}
+
