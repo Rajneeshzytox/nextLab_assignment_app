@@ -1,0 +1,92 @@
+/* thanks to tailwind css, now i have to write custom css for the markdown.......  */
+.markdown-container {
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+
+/* typo h1, h2 ... */
+.markdown-container h1,
+.markdown-container h2,
+.markdown-container h3 {
+  color: hsl(244,10%,40%);
+  letter-spacing: -0.025em;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+
+.markdown-container h3,
+.markdown-container h4
+{
+    border-bottom: 1px solid hsl(244,50%,80%);
+}
+.markdown-container h1 {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    font-weight: bold;
+}
+.markdown-container h2 {
+    margin: 2rem 0 0.5rem 0;
+  font-size: 2rem;
+  line-height: 2rem;
+  
+}
+.markdown-container h3 {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+/* i used h4 for mostly points */
+.markdown-container h4 {
+    background-color: hsl(244,50%,92%);
+    width: max-content;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 3rem;
+  padding: 0rem 1rem;
+  margin: 1.5rem 0 0.5rem 0rem;
+  border-radius: 10px;
+}
+.markdown-container h5 {
+    background-color: hsl(244,50%,92%);
+    width: max-content;
+  font-size: 1rem;
+  line-height: 1rem;
+  padding: 0rem 1rem;
+  margin: 1rem 0 0.25rem 0;
+  border-radius: 10px;
+}
+
+.markdown-container pre {
+  background-color: hsl(244,50%,95%);
+  box-shadow: 0px 5px 20px -10px hsl(244,50%,70%);
+  border: 1px solid hsl(244,50%,90%);
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 0.9em;
+  overflow: auto;
+  max-height: 200px;
+  margin: 1rem 0rem 3rem 0.5rem;
+
+}
+
+.markdown-container blockquote {
+  border-left: 4px solid #dfe2e5;
+  padding-left: 15px;
+  color: #6a737d;
+}
+
+.markdown-container ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.markdown-container ol {
+  list-style-type: decimal;
+  padding-left: 20px;
+}
