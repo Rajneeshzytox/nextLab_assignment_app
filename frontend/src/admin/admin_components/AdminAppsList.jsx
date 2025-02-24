@@ -94,6 +94,11 @@ function CreateAppForm({ categories, subCategories }) {
     alert("enter valid title and url. url should be like : http:// or https://")
   };
 
+
+  // FILTER SUB CATEGORY : 
+  const filterSubCategories = subCategories.data.filter((subCategory)=>((subCategory.category) && (subCategory.category.id == SelectedCategories)))
+  
+
   return (
     <>
       {/* Create apps */}
@@ -190,7 +195,7 @@ function CreateAppForm({ categories, subCategories }) {
                 <option value={""}>None</option>
 
                 {/* render all categories options  */}
-                {subCategories.data.map((subCategory) => (
+                {SelectedCategories && filterSubCategories.map((subCategory) => (
                   <option key={subCategory.id} value={subCategory.id}>
                     {subCategory.title}
                   </option>
