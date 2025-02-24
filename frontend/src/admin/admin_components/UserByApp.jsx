@@ -39,15 +39,10 @@ export default function UserByApp() {
   });
 
   // load users by app
-  const [Limit_fetch, setLimit_fetch] = useState(2);
-
   useEffect(() => {
     // fetch users
-    if (app_users.data.length == 0 && Limit_fetch > 0) {
-      setLimit_fetch((p) => p - 1);
       dispatch(fetchUserByApp({ appId: appId, urlParameter: null }));
-    }
-  }, [dispatch, app_users.data, appId]);
+  }, []);
 
   // loadign
   if (app_users.isLoad) {
@@ -85,6 +80,8 @@ export default function UserByApp() {
           imgUrl: "",
           userId: "",
         });
+        dispatch(fetchUserByApp({ appId: appId, urlParameter: null }));
+        return ;
       }
 
       // if failed
@@ -100,9 +97,36 @@ export default function UserByApp() {
 
   return (
     <>
-      <div>
+
+      {/* Table List  */}
+      <section>
+        {/* ALERT MESSAGE  */}
+        {SuccessMessage.active && (
+          <div className={`px-4 py-1 bg-slate-300 flex gap-8 items-center`}>
+            {SuccessMessage.message}
+        
+            <button
+              className={`px-4 py-1 bg-slate-100 flex gap-8 items-center`}
+              onClick={() =>
+                setSuccessMessage((p) => ({ ...p, active: false, message: "" }))
+              }
+            >
+              ..ok
+            </button>
+          </div>
+        )}
+
+        {/* Heading */}
         <h2>User List of {appId}</h2>
 
+        {/* FILTER OPTIONS */}
+        <div className="flex gap-4 *:px-4 *py-2 *:bg-slate-200 ">
+          <button onClick={()=>dispatch(fetchUserByApp({ appId: appId, urlParameter: null }))}>All</button>
+          <button onClick={()=>dispatch(fetchUserByApp({ appId: appId, urlParameter: '?status=pending' }))}>Pending Verification</button>
+          <button onClick={()=>dispatch(fetchUserByApp({ appId: appId, urlParameter: '?status=verified' }))}>Verified</button>
+        </div>
+
+        {/* Table Container */}
         <div className="relative max-w-[900px] mx-auto overflow-x-scroll my-8">
           {app_users.data.length == 0 ? (
             <p>No One Downloaded Your App, 😢</p>
@@ -165,41 +189,28 @@ export default function UserByApp() {
             </table>
           )}
         </div>
-      </div>
 
-      <AssignModel state={{ value: verifyModel, set: setVerifyModel }}>
-        <div className="flex flex-col items-center gap-4 w-full sm:w-[300px] lg:w-[600px] py-4">
-          {verifyModel.imgUrl ? (
-            <img src={verifyModel.imgUrl} />
-          ) : (
-            <p>Not Provided Screenshot</p>
-          )}
+        {/* ASSIGN POINTS MODEL */}
+        <AssignModel state={{ value: verifyModel, set: setVerifyModel }}>
+          <div className="flex flex-col items-center gap-4 w-full sm:w-[300px] lg:w-[600px] py-4">
+            {verifyModel.imgUrl ? (
+              <img src={verifyModel.imgUrl} />
+            ) : (
+              <p>Not Provided Screenshot</p>
+            )}
 
-          <button
-            className="bg-slate-200 border-2 border-slate-600 transition-all text-slate-900  hover:text-slate-50 hover:bg-slate-600 py-1 rounded px-2"
-            title="assign point to this user?"
-            onClick={() => handleAssign()}
-          >
-            assign points
-          </button>
-        </div>
-      </AssignModel>
+            <button
+              className="bg-slate-200 border-2 border-slate-600 transition-all text-slate-900  hover:text-slate-50 hover:bg-slate-600 py-1 rounded px-2"
+              title="assign point to this user?"
+              onClick={() => handleAssign()}
+            >
+              assign points
+            </button>
+          </div>
+        </AssignModel>
 
-      {/* ALERT MESSAGE  */}
-      {SuccessMessage.active && (
-        <div className={`px-4 py-1 bg-slate-300 flex gap-8 items-center`}>
-          {SuccessMessage.message}
+      </section>
 
-          <button
-            className={`px-4 py-1 bg-slate-100 flex gap-8 items-center`}
-            onClick={() =>
-              setSuccessMessage((p) => ({ ...p, active: false, message: "" }))
-            }
-          >
-            ..ok
-          </button>
-        </div>
-      )}
     </>
   );
 }
