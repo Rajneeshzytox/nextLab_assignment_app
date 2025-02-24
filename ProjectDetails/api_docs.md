@@ -505,14 +505,17 @@ Get Response 200:
   "status": "ok",
   "data": [
     {
-      "id": 3,
+      "id": 2,
       "appID": 2,
-      "appImg": "appImg/pic_raj.jpg",
-      "appName": "app-1",
-      "user_id": "temp",
-      "date": "2025-02-18T13:29:27.875660Z",
-      "points_earned": 5
-    }
+      "appImg": null,
+      "appName": "app2",
+      "userID": "1",
+      "username": "admin",
+      "date": "2025-02-22T09:09:43.802464Z",
+      "points_earned": 2,
+      "is_verified": true,
+      "user_screenshot": "abc.png"
+    },
   ]
 }
 ```
