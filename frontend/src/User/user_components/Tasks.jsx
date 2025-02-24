@@ -1,6 +1,14 @@
+import { useEffect, useState } from "react";
 // state
 import { useSelector, useDispatch } from "react-redux";
 import { fetch_not_claimed_apps } from "../../states/UserStates/apps_not_claimed";
+
+// Model
+import Model from "../../components/ui/Model";
+
+// download App api js
+import { downloadApp } from "../../api/User_api/downloadApp";
+import uploadImage from "../../api/img_upload"
 
 // icon
 import { ListTodoIcon } from "lucide-react";
@@ -12,10 +20,9 @@ import {
   TypoH4,
   TypoSmall,
 } from "../../components/ui/Typo";
-import { useEffect, useState } from "react";
 
 // task Card
-export function TaskCard({ app }) {
+export function TaskCard({ app, setModelActive }) {
   const app_reference = {
     id: 1,
     title: "app-2",
@@ -83,7 +90,7 @@ export function TaskCard({ app }) {
 
         <div className="flex items-center">
             {/* points */}
-            <button className="w-fit px-6 hover:bg-slate-950 bg-slate-700 text-slate-100 rounded">
+            <button onClick={()=>setModelActive(app.id)} className="w-fit px-6 hover:bg-slate-950 bg-slate-700 text-slate-50 rounded">
                 Earn {app.points}
             </button>
 
@@ -102,6 +109,81 @@ export default function Tasks() {
   const pending_apps = useSelector((s) => s.pending_apps);
   const dispatch = useDispatch();
 
+  // Download flow --> [Tasks] =(appId)=> [Model] =(appId)=> handleImageUpload =(appId, imgUrl)=> handleDownload =(appId, imgUrl)=> downloadApp
+
+  // Alert Message: 
+  const [alert, setAlert] = useState(
+    {
+      active: false,
+      message: '',
+      success: false,
+    }
+  )
+  // Upload ScreenShot Model: 
+  const [model, setModel] = useState({
+    appId: -1,
+    active: false
+  })
+  
+  // HANDLE SEND REQ FOR DOWNLOAD 
+  const closeModel = () => {
+    setModel({
+      appId: -1,
+      active: false
+    })
+  }
+
+  // set model active
+  const setModelActive = (appId) => {
+    setModel({
+      appId: appId,
+      active:true
+    })
+  }
+
+  // HANDLE SEND REQ FOR DOWNLOAD 
+  const handleImageUpload = async (e, fileId, appId) => {
+    e.target.value = "uploading..."
+
+    const res = await uploadImage(fileId);
+    if (res.status == 200) {
+      e.target.value = "upload successfully"
+
+      // send download req
+      handleDownload(appId, res.imgUrl)
+      return;
+    }
+
+    e.target.value = "failed to upload"
+    closeModel();
+    setAlert({active:true, message:res.message})
+  }
+
+
+  // HANDLE SEND REQ FOR DOWNLOAD 
+  const handleDownload = async (appId, imgUrl) => {
+      const res = await downloadApp(appId, imgUrl)
+
+      closeModel()
+      // Download Success
+      if(res.success){
+        setAlert({
+            active: true,
+            message: res.message,
+            success: true
+        })
+        dispatch(fetch_not_claimed_apps())
+        return
+      }
+      
+      // Download Failed : ALert
+      setAlert({
+        active:true,
+        message:res.message,
+        success:false
+      })
+
+  }
 
   // HEY NEVER REMOVE This STATE AS tHERE WILL BE INFINITE REQUEST CALLS
   const [Limit_fetch, setLimit_fetch] = useState(2)
@@ -114,6 +196,8 @@ export default function Tasks() {
     }
   }, [dispatch, pending_apps.data]);
 
+
+  // IF PENDING OR LoADING 
   if (pending_apps.isLoad) {
     return <p>Loading...</p>;
   }
@@ -128,6 +212,11 @@ export default function Tasks() {
   return (
     <>
       <section>
+        {/* Alert Box */}
+        {alert.active && 
+          <div className={`${alert.success?"bg-green-200":"bg-red-200"}`}>{alert.message}</div>
+        }
+
         {/* Task heading */}
         <div className="flex items-center gap-4">
           <ListTodoIcon />
@@ -137,11 +226,41 @@ export default function Tasks() {
         {/* pending apps */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 my-4">
           {pending_apps.data?.length ? (
-            pending_apps.data.map((app) => <TaskCard key={app.id} app={app} />)
-          ) : (
+            pending_apps.data.map((app) => 
+            // CARD
+            <TaskCard key={app.id} app={app} setModelActive={setModelActive} />
+          )) : (
             <p>No Pending APPS</p>
           )}
         </div>
+      {/* Model */}
+          { model.active &&
+            <Model clear={closeModel}>
+              <div className="flex flex-col justify-start px-6 py-4 *:w-fit">
+                  <TypoH4>Upload ScreenShot</TypoH4>
+                  <input type="file" title="upload screenshot" id="uploadScreenShotFile"/>
+                  <button 
+                    className="px-4 py-1 bg-slate-800 text-slate-50 hover:bg-slate-900"
+                    onClick={(e)=>handleImageUpload(e, 'uploadScreenShotFile', model.appId)}
+                  >
+                    upload
+                  </button>
+              </div>
+              <div className="flex flex-col justify-start px-6 py-4 *:w-fit">
+                  <TypoH4>ScreenShot Url</TypoH4>
+                  <input type="url" title="screenshot url" placeholder="url of ss" id="tempUrlOfScreenShot"/>
+                  <button 
+                    className="px-4 py-1 bg-slate-800 text-slate-50 hover:bg-slate-900"
+                    onClick={(e)=>handleDownload(model.appId, document.getElementById('tempUrlOfScreenShot').value)}
+                  >
+                    upload
+                  </button>
+              </div>
+
+            </Model>
+          }
+
+
       </section>
     </>
   );
