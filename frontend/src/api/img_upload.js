@@ -16,7 +16,7 @@ export default async function uploadImage(fileInputID) {
   const file = fileInput.files[0]
   if(!file){
     alert("At least Upload a img")
-    return;
+    return {status: 400, message:"img not present" }
   }
 
 //   form object for img
