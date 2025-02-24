@@ -1,11 +1,14 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit"
-
+import {local_token} from "./token_slice"
 
 // fetch user 
 import { fetchProfile } from "../api/user_profile"
 
 export const fetchUserProfile = createAsyncThunk('fetchUserProfile', async ({token})=>{
-    return fetchProfile(token)
+    let token_key = token? token : local_token
+    const res = await fetchProfile(token_key);
+    return res;
+
 } )
 
 export const local_profile = localStorage.getItem('profile')
@@ -77,14 +80,6 @@ const userSlice = createSlice({
 
             if(action.payload.status == 400){
                 state.isError = true
-                state.data = {
-                    "username": "",
-                    "first_name": "",
-                    "last_name": "",
-                    "email": "",
-                    "role": "",
-                    "points": null
-                }
             }
         })
     }
