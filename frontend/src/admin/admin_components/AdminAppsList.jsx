@@ -9,9 +9,6 @@ import uploadImage from "../../api/img_upload";
 
 import {
   createAppThunk,
-  fetchAllAppsThunk,
-  deleteAppThunk,
-  updateAppThunk,
 } from "../../states/AdminStates/appsSlices";
 
 //fetech categorie & sub catgeories
@@ -65,19 +62,36 @@ function CreateAppForm({ categories, subCategories }) {
     setIsActive(false);
   };
 
+  // Check if Url Valid
+  const isUrlValid = (url) => {
+    try {
+      new URL(url)
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
   //   HAndle Submit
   const handleAppFormSubmit = (e) => {
     e.preventDefault();
-    const app_json_object = {
-      title: title,
-      points: Points,
-      img: Img,
-      url: Url,
-      categories_ids: [SelectedCategories],
-      sub_categories_ids: [SelectedSubCategoies],
-      is_active: IsActive,
-    };
-    dispatch(createAppThunk(app_json_object));
+    if(title != "" && isUrlValid(Url)){
+      const app_json_object = {
+        title: title,
+        points: Points,
+        img: Img,
+        url: Url,
+        categories_ids: [SelectedCategories],
+        sub_categories_ids: [SelectedSubCategoies],
+        is_active: IsActive,
+      };
+      dispatch(createAppThunk(app_json_object));
+  
+      clearForm()
+      return;
+    }
+
+    alert("enter valid title and url. url should be like : http:// or https://")
   };
 
   return (
