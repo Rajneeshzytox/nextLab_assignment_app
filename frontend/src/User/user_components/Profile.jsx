@@ -1,5 +1,5 @@
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserProfile } from "../../states/userInfo_slice";
 // ui
 import { TypoP, TypoH1, TypoSmall } from "../../components/ui/Typo";
 
@@ -7,12 +7,13 @@ import { TypoP, TypoH1, TypoSmall } from "../../components/ui/Typo";
 import Not_Found_404 from "../../components/utils/Not_Found_404";
 
 // icon
-import {HistoryIcon} from "lucide-react"
+import {HistoryIcon, RefreshCwIcon} from "lucide-react"
 
 // Link
 import {Link} from "react-router-dom"
 
 export default function Profile() {
+  const dispatch = useDispatch()
   // profile data
   const profile = useSelector((s) => s.profile);
 
@@ -88,8 +89,15 @@ export default function Profile() {
           title={"Points"}
           content={
             <>
-              <TypoP className="mr-2">{user.points}</TypoP>
-              <Link to="/history" className="hover:underline  text-slate-700 text-sm flex items-center gap-1"> <HistoryIcon className="w-4"/>History</Link>
+              <TypoP className="mr-1">{user.points}</TypoP>
+              <button className="hover:rotate-45 transition-all duration-300 mr-4"
+                onClick={()=>dispatch(fetchUserProfile())}
+              >
+                <RefreshCwIcon className="w-4 text-slate-600"/>
+              </button>
+              <Link to="/history" className="hover:underline  text-slate-700 text-sm flex items-center gap-1">    
+                <HistoryIcon className="w-4"/>History
+              </Link>
             </>
           }
         />
