@@ -14,6 +14,8 @@ import {
   ServerIcon,
   StarsIcon,
   Clock,
+  CircleCheckIcon,
+  ClockIcon,
 } from "lucide-react";
 
 // date format 
@@ -26,6 +28,7 @@ const TableRow = () => {
     { title: "S.NO", icon: <HashIcon className="w-5"/> },
     { title: "APP", icon: <ServerIcon className="w-5"/> },
     { title: "points", icon: <StarsIcon className="w-5"/> },
+    { title: "verify", icon: <StarsIcon className="w-5"/> },
     { title: "Date", icon: <Clock className="w-5"/> },
   ];
   return (
@@ -49,14 +52,17 @@ const TableRow = () => {
 // TABLE DATA ==========>
 const TableData = ({ table_row_data, index }) => {
   // {
-  //   "id": 3,
+  //   "id": 2,
   //   "appID": 2,
-  //   "appImg": "appImg/pic_raj.jpg",
-  //   "appName": "app-1",
-  //   "user_id": "temp",
-  //   "date": "2025-02-18T13:29:27.875660Z",
-  //   "points_earned": 5
-  // }
+  //   "appImg": null,
+  //   "appName": "app2",
+  //   "userID": "1",
+  //   "username": "admin",
+  //   "date": "2025-02-22T09:09:43.802464Z",
+  //   "points_earned": 2,
+  //   "is_verified": true,
+  //   "user_screenshot": "abc.png"
+  // },
 
     const date_app = new Date(table_row_data.date)
   return (<>
@@ -80,6 +86,9 @@ const TableData = ({ table_row_data, index }) => {
     </td>
     <td className="font-semibold">
         {table_row_data.points_earned}
+    </td>
+    <td className="font-semibold">
+        <span>{table_row_data.is_verified ? <CircleCheckIcon className="fill-green-400 text-slate-800" /> : <ClockIcon className="fill-orange-400 text-slate-800" />}</span>
     </td>
     <td>
         {dateFormat(date_app, "dddd, mmmm dS, yyyy, h:MM TT")}
