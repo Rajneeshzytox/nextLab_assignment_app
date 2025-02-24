@@ -16,7 +16,10 @@ App:
 - [`history/`](#history) : user download history `get`
 - [`get-apps/`](#get-apps) : all-apps `get`
 - [`get-apps/?not-claimed=true/`](#get-apps-not-claimed): retured not claimed apps `get`
-- [`profile/`](#profile) : profile `get` `put` `delete`
+- [`profile/`](#profile) : profile `get` `put` `delete`, 
+    - `profile/?role=true`
+    - `profile/?points=true`
+
 
 System: 
 - [`download/<int:app_id>/`](#downloadintapp_id) : add app to download History, with verification pending
