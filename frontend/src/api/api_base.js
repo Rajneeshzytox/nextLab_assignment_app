@@ -1,5 +1,10 @@
 // server url to backend
-export const Server_URL = 'http://127.0.0.1:8000'
+
+// for local
+// export const Server_URL = 'http://127.0.0.1:8000'
+// for production
+export const Server_URL = "https://backend-fpkp.onrender.com"
+
 
 // api base url
 export const API_BASE = `${Server_URL}/api`

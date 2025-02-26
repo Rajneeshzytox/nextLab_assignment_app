@@ -20,12 +20,12 @@ const profile = {
     isError: false,
     message: "",
     data: {
-        "username": local_profile?.username || "",
-        "first_name": local_profile?.first_name || "",
-        "last_name": local_profile?.last_name ||"",
-        "email": local_profile?.email || "",
-        "role": local_profile?.role || "",
-        "points": local_profile?.points || null
+        username: local_profile?.username || "",
+        first_name: local_profile?.first_name || "",
+        last_name: local_profile?.last_name ||"",
+        email: local_profile?.email || "",
+        role: local_profile?.role || "",
+        points: local_profile?.points || null
     }
 }
 
@@ -43,12 +43,12 @@ const userSlice = createSlice({
                 isError: false,
                 message: "",
                 data: {
-                    "username": "",
-                    "first_name":  "",
-                    "last_name": "",
-                    "email": "",
-                    "role": "",
-                    "points": null,
+                    username: "",
+                    first_name:  "",
+                    last_name: "",
+                    email: "",
+                    role: "",
+                    points: null,
                 }
             }
 
