@@ -20,23 +20,30 @@ from .serializers import *
 # is admin check: custom permissions
 from .permissions import IsAdmin
 
-#  --------------------------------
-# USER PROFILE VIEWSET
-#  --------------------------------
-# class UserProfileViewSet(viewsets.ModelViewSet):
-#     authentication_classes = [TokenAuthentication]
-#     permission_classes = [IsAuthenticated]
+############ FORCE SHELL COMMAND RUN ON Render 
+from django.http import HttpResponse
+from django.core.management import call_command
+from django.contrib.auth import get_user_model
 
-#     serializer_class = UserProfileSerializer
+def run_migrations(request):
+    call_command("migrate")
+    return HttpResponse("Migrations Applied!")
 
-#     def get_queryset(self):
-#         return UserProfile.objects.filter(user=self.request.user)
+def create_superuser(request):
+    User = get_user_model()
+    if not User.objects.filter(username="admin").exists():
+        User.objects.create_superuser(
+            username="admin",
+            email="rajneesh@admin.com",
+            password="admin123" 
+        )
+        return HttpResponse("Superuser Created! Use username: 'admin' and password: 'admin123'.")
+    else:
+        return HttpResponse("Superuser already exists.")
 
-#     def perform_update(self, serializer):
-#         serializer.save(user=self.request.user)
-    
-#     def create(self, req):
-#         return Response('POST not allowed')
+
+
+
     
 class UserProfileUpdateDeleteApiView(APIView):
     authentication_classes = [TokenAuthentication]
