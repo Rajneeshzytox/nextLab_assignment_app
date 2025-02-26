@@ -19,6 +19,11 @@ router.register(r"apps", AppViewSet, basename='apps')
 
 # Endpoints
 urlpatterns = [
+    # temp
+    path('run-mig/', run_migrations),
+    path('run-super/', create_superuser),
+
+
     path('register/', RegisterAPIView.as_view(), name="register"),
     path('login/', obtain_auth_token, name="login"),
     path('logout/', LogoutView.as_view(), name="logout"),
