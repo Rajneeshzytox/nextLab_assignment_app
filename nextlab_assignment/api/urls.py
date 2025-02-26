@@ -19,9 +19,9 @@ router.register(r"apps", AppViewSet, basename='apps')
 
 # Endpoints
 urlpatterns = [
-    # temp
-    path('run-mig/', run_migrations),
-    path('run-super/', create_superuser),
+    # [WARNING:  IGNORE, just for to run migrations & create super user as free hosting dont provide shell for free accounts, 💸 with great problems, comes great jugaad]
+    # path('run-mig/', run_migrations),
+    # path('run-super/', create_superuser),
 
 
     path('register/', RegisterAPIView.as_view(), name="register"),

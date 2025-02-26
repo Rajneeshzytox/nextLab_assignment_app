@@ -21,25 +21,26 @@ from .serializers import *
 from .permissions import IsAdmin
 
 ############ FORCE SHELL COMMAND RUN ON Render 
-from django.http import HttpResponse
-from django.core.management import call_command
-from django.contrib.auth import get_user_model
+# # [WARNING:  IGNORE, just for to run migrations & create super user as free hosting dont provide shell for free accounts, 💸 with great problems, comes great jugaad]
+# from django.http import HttpResponse
+# from django.core.management import call_command
+# from django.contrib.auth import get_user_model
 
-def run_migrations(request):
-    call_command("migrate")
-    return HttpResponse("Migrations Applied!")
+# def run_migrations(request):
+#     call_command("migrate")
+#     return HttpResponse("Migrations Applied!")
 
-def create_superuser(request):
-    User = get_user_model()
-    if not User.objects.filter(username="admin").exists():
-        User.objects.create_superuser(
-            username="admin",
-            email="rajneesh@admin.com",
-            password="admin123" 
-        )
-        return HttpResponse("Superuser Created! Use username: 'admin' and password: 'admin123'.")
-    else:
-        return HttpResponse("Superuser already exists.")
+# def create_superuser(request):
+#     User = get_user_model()
+#     if not User.objects.filter(username="admin").exists():
+#         User.objects.create_superuser(
+#             username="admin",
+#             email="rajneesh@admin.com",
+#             password="Admin" 
+#         )
+#         return HttpResponse("Superuser Created! Use username: 'admin' and password: 'Admin'.")
+#     else:
+#         return HttpResponse("Superuser already exists.")
 
 
 
