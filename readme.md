@@ -5,7 +5,11 @@
 [![GitHub stars](https://img.shields.io/github/stars/Rajneeshzytox/nextLab_assignment_app?style=social)](https://github.com/Rajneeshzytox/nextLab_assignment_app/stargazers) 
 [![Gitlab stars](https://img.shields.io/gitlab/stars/rajneesh.coder/nextLab_assignment_app?style=social)](https://gitlab.com/rajneesh.coder/nextLab_assignment_app)
 
-[Visit Backend for Test Api](https://backend-fpkp.onrender.com/api/)
+
+
+#### Visit the backend first as server shut down & start again (free hosting..)
+[Visit Backend for Test Api](https://backend-fpkp.onrender.com/api/) 
+[Visit Frontend](https://earn-points.netlify.app/)
 
 ---
 
