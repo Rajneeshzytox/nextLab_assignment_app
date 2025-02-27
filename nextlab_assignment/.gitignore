@@ -34,8 +34,7 @@ ENV/
 *.cover
 *.hypothesis/
 
-# Django migrations
-*/migrations/*
+
 
 # Static files
 static/
