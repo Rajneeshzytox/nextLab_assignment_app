@@ -22,13 +22,20 @@ from .permissions import IsAdmin
 
 ############ FORCE SHELL COMMAND RUN ON Render 
 # # [WARNING:  IGNORE, just for to run migrations & create super user as free hosting dont provide shell for free accounts, 💸 with great problems, comes great jugaad]
-# from django.http import HttpResponse
-# from django.core.management import call_command
+from django.http import HttpResponse
+from django.core.management import call_command
 # from django.contrib.auth import get_user_model
 
-# def run_migrations(request):
-#     call_command("migrate")
-#     return HttpResponse("Migrations Applied!")
+def run_migrations(request):
+    call_command("migrate")
+    return HttpResponse("Migrations Applied!")
+
+def run_makemigrations(request):
+    try:
+        call_command("makemigrations")
+        return HttpResponse("Migrations done")
+    except Exception as e:
+        return HttpResponse(f"An error occurred while creating migrations: {str(e)}")
 
 # def create_superuser(request):
 #     User = get_user_model()
