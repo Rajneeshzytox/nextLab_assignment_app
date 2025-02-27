@@ -11,6 +11,7 @@ import Input from "../ui/Input";
 import Alert from "../ui/Alert";
 import Button from "../ui/Button";
 import { TypoH1, TypoSmall } from "../ui/Typo";
+import GlowBox from "../ui/glowBox";
 
 // icons
 import { UserCircle, Lock } from "lucide-react";
@@ -91,7 +92,8 @@ export default function Login() {
 
   return (
     <main className="flex min-h-screen">
-      <div className="bg-slate-700 hidden md:block w-1/2"></div>
+      <GlowBox/>
+      
       <section className="Login_container size-full flex flex-col justify-center min-h-screen relative px-4 mx-auto max-w-96">
         <TypoH1>Login</TypoH1>
 
