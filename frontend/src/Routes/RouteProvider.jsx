@@ -1,31 +1,46 @@
-import { useEffect } from "react"
+import React, { lazy, Suspense, useEffect } from "react";
 
 import {BrowserRouter, Routes, Route, Navigate} from "react-router-dom"
 import ProtectedRoutes from "./ProtectedRoutes"
 
 // Components
-import Not_Found_404 from "../components/utils/Not_Found_404"
-import Login from "../components/utils/Login"
-import Register from "../components/utils/Register"
-import Admin from "../admin/Admin"
-import User from "../User/User"
-import Layout from "../Layout"
+const Not_Found_404 = lazy(() => import("../components/utils/Not_Found_404"))
+const Login = lazy(() => import("../components/utils/Login"))
+const Register = lazy(() => import("../components/utils/Register"))
+const Admin = lazy(() => import("../admin/Admin"))
+const User = lazy(() => import("../User/User"))
+const Layout = lazy(() => import("../Layout"))
 
 // user COmponents: 
-import Profile from "../User/user_components/Profile"
-import History from "../User/user_components/History"
+const Profile = lazy(() => import("../User/user_components/Profile"))
+const History = lazy(() => import("../User/user_components/History"))
+const Tasks = lazy(() => import("../User/user_components/Tasks"))
 
 // state
 import {useSelector, useDispatch} from "react-redux"
-import { fetchUserProfile } from "../states/userInfo_slice";
-import Tasks from "../User/user_components/Tasks"
+import { fetchUserProfile } from "../states/userInfo_slice"
 
 // admin components
-import Categories from "../admin/admin_components/Categories"
-import SubCategories from "../admin/admin_components/SubCategoies"
-import AppsList from "../admin/admin_components/AdminAppsList"
-import UserByApp from "../admin/admin_components/UserByApp"
-import MarkdownRenderer from "../components/ui/Markdown"
+const Categories = lazy(() => import("../admin/admin_components/Categories"))
+const SubCategories = lazy(() => import("../admin/admin_components/SubCategoies"))
+const AppsList = lazy(() => import("../admin/admin_components/AdminAppsList"))
+const UserByApp = lazy(() => import("../admin/admin_components/UserByApp"))
+const MarkdownRenderer = lazy(() => import("../components/ui/Markdown"))
+
+
+
+// Random quotes for waiting users
+const waitingQuotes = [
+    "With Great Js Bundles, comes great waiting timing ✨",
+    "Patience is key bro, I dont know about the lock 🔐",
+    "Loving flower is ok but loving leaves is great ultra max pro 🍃🍂",
+    "You wasted your entire life, so waiting for site load is nothing",
+    "appreciate the work of developer",
+]
+const getRandomQuote = () => {
+    const randomIndex = Math.floor(Math.random() * waitingQuotes.length);
+    return waitingQuotes[randomIndex];
+};
 
 
 export default function RouteProvider(){
@@ -51,6 +66,7 @@ export default function RouteProvider(){
     return (
         <>
         <BrowserRouter>
+        <Suspense fallback={<div>{getRandomQuote()}</div>}>
             <Routes>
                 <Route exact path="login/" element={<Login/>} />
                 <Route exact path="register/" element={<Register/>} />
@@ -84,15 +100,10 @@ export default function RouteProvider(){
 
                     </Route>
 
-                </Route>
-
-
-                
-
-                
-                    
+                </Route>  
                 <Route path="*" element={<Not_Found_404/>} />
             </Routes>
+            </Suspense>
         </BrowserRouter>
         </>
     )
